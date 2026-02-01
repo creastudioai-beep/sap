@@ -42,8 +42,8 @@ def parse_telegram_channel():
                     'id': None,
                     'date': '',
                     'text': '',
-                    'photo_url': '',
-                    'video_url': '',
+                    'photo_urls': [],  # Теперь список для всех фото
+                    'video_urls': [],  # Теперь список для всех видео
                     'links': [],
                     'parsed_at': datetime.now().isoformat()
                 }
@@ -75,29 +75,70 @@ def parse_telegram_channel():
                         if href and not href.startswith('https://t.me/') and href not in post['links']:
                             post['links'].append(href)
 
-                # Извлекаем фото (оригинальные ссылки)
-                photo_wrap = wrap.find('a', class_='tgme_widget_message_photo_wrap')
-                if photo_wrap:
+                # Извлекаем ВСЕ фото
+                # 1. Ищем все элементы с фоновыми изображениями (карусели)
+                photo_wraps = wrap.find_all('a', class_='tgme_widget_message_photo_wrap')
+                for photo_wrap in photo_wraps:
                     style = photo_wrap.get('style', '')
                     if style:
-                        match = re.search(r"url\('(.*?)'\)", style)
-                        if match:
-                            post['photo_url'] = match.group(1)
+                        # Ищем все URL в background-image
+                        matches = re.findall(r"url\('(.*?)'\)", style)
+                        for url in matches:
+                            if url and url not in post['photo_urls']:
+                                post['photo_urls'].append(url)
+                
+                # 2. Ищем все отдельные изображения
+                img_tags = wrap.find_all('img', class_='tgme_widget_message_photo')
+                for img in img_tags:
+                    src = img.get('src')
+                    if src and src not in post['photo_urls']:
+                        post['photo_urls'].append(src)
+                
+                # 3. Ищем фото в слайдерах (каруселях)
+                slide_items = wrap.find_all('div', class_='tgme_widget_message_slide_item')
+                for slide in slide_items:
+                    # Проверяем фоновое изображение в слайдере
+                    slide_style = slide.get('style', '')
+                    if slide_style:
+                        slide_matches = re.findall(r"url\('(.*?)'\)", slide_style)
+                        for url in slide_matches:
+                            if url and url not in post['photo_urls']:
+                                post['photo_urls'].append(url)
                     
-                    # Пробуем найти прямую ссылку
-                    if not post['photo_url']:
-                        img = wrap.find('img', class_='tgme_widget_message_photo')
-                        if img and img.get('src'):
-                            post['photo_url'] = img['src']
+                    # Ищем теги img внутри слайдов
+                    slide_imgs = slide.find_all('img')
+                    for slide_img in slide_imgs:
+                        src = slide_img.get('src')
+                        if src and src not in post['photo_urls']:
+                            post['photo_urls'].append(src)
 
-                # Извлекаем видео
-                video_elem = wrap.find('video', class_='tgme_widget_message_video')
-                if video_elem:
-                    source = video_elem.find('source')
-                    if source and source.get('src'):
-                        post['video_url'] = source['src']
-                    elif video_elem.get('src'):
-                        post['video_url'] = video_elem['src']
+                # Извлекаем ВСЕ видео
+                # 1. Ищем все теги video
+                video_tags = wrap.find_all('video', class_='tgme_widget_message_video')
+                for video in video_tags:
+                    # Проверяем source внутри video
+                    sources = video.find_all('source')
+                    for source in sources:
+                        src = source.get('src')
+                        if src and src not in post['video_urls']:
+                            post['video_urls'].append(src)
+                    
+                    # Проверяем атрибут src у самого тега video
+                    video_src = video.get('src')
+                    if video_src and video_src not in post['video_urls']:
+                        post['video_urls'].append(video_src)
+                
+                # 2. Ищем видео в слайдерах
+                video_slides = wrap.find_all('div', class_='tgme_widget_message_slide_video')
+                for video_slide in video_slides:
+                    # Проверяем фоновое видео в слайдере
+                    slide_style = video_slide.get('style', '')
+                    if slide_style:
+                        # Ищем видео URL в стилях
+                        video_matches = re.findall(r"url\('(.*?)'\)", slide_style)
+                        for url in video_matches:
+                            if url and url not in post['video_urls']:
+                                post['video_urls'].append(url)
 
                 # Ищем дополнительные ссылки
                 other_links = wrap.find_all('a', class_='tgme_widget_message_link')
@@ -107,9 +148,15 @@ def parse_telegram_channel():
                         post['links'].append(href)
 
                 # Добавляем пост только если есть хоть какие-то данные
-                if post['text'] or post['photo_url'] or post['video_url'] or post['links']:
+                if post['text'] or post['photo_urls'] or post['video_urls'] or post['links']:
                     all_posts.append(post)
-                    print(f"  Добавлен пост: {post['date']}")
+                    # Выводим отладочную информацию
+                    photo_count = len(post['photo_urls'])
+                    video_count = len(post['video_urls'])
+                    if photo_count > 0 or video_count > 0:
+                        print(f"  Добавлен пост: {post['date']} (фото: {photo_count}, видео: {video_count})")
+                    else:
+                        print(f"  Добавлен пост: {post['date']}")
 
             # Ищем кнопку "Загрузить предыдущие"
             load_more = soup.find('a', class_='tme_messages_more')
@@ -143,6 +190,28 @@ def update_cache(new_posts):
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
                 cached_posts = json.load(f)
                 print(f"Загружен существующий кеш: {len(cached_posts)} постов")
+                
+                # Конвертируем старый формат в новый
+                for i, post in enumerate(cached_posts):
+                    # Если есть старые поля photo_url/video_url, конвертируем в списки
+                    if 'photo_url' in post and 'photo_urls' not in post:
+                        cached_posts[i]['photo_urls'] = [post['photo_url']] if post['photo_url'] else []
+                        # Удаляем старое поле
+                        if 'photo_url' in cached_posts[i]:
+                            del cached_posts[i]['photo_url']
+                    
+                    if 'video_url' in post and 'video_urls' not in post:
+                        cached_posts[i]['video_urls'] = [post['video_url']] if post['video_url'] else []
+                        # Удаляем старое поле
+                        if 'video_url' in cached_posts[i]:
+                            del cached_posts[i]['video_url']
+                    
+                    # Если нет полей photo_urls/video_urls, создаем пустые списки
+                    if 'photo_urls' not in cached_posts[i]:
+                        cached_posts[i]['photo_urls'] = []
+                    if 'video_urls' not in cached_posts[i]:
+                        cached_posts[i]['video_urls'] = []
+                        
         except Exception as e:
             print(f"Ошибка при загрузке кеша: {e}")
 
@@ -184,7 +253,7 @@ def update_cache(new_posts):
 def main():
     """Основная функция парсера."""
     print("=" * 50)
-    print("Telegram Channel Parser")
+    print("Telegram Channel Parser (обновленная версия)")
     print(f"Канал: {CHANNEL_URL}")
     print(f"Время запуска: {datetime.now().isoformat()}")
     print("=" * 50)
@@ -202,13 +271,36 @@ def main():
         print(f"Получено новых постов: {len(posts)}")
         print(f"Всего в кеше: {len(cached)}")
         
-        posts_with_photos = sum(1 for p in posts if p.get('photo_url'))
-        posts_with_videos = sum(1 for p in posts if p.get('video_url'))
+        # Подсчитываем посты с медиа
+        posts_with_photos = sum(1 for p in posts if p.get('photo_urls') and len(p['photo_urls']) > 0)
+        posts_with_videos = sum(1 for p in posts if p.get('video_urls') and len(p['video_urls']) > 0)
+        
+        # Подсчитываем общее количество медиафайлов
+        total_photos = sum(len(p.get('photo_urls', [])) for p in posts)
+        total_videos = sum(len(p.get('video_urls', [])) for p in posts)
+        
+        # Находим пост с максимальным количеством медиа
+        max_photos_in_post = max(len(p.get('photo_urls', [])) for p in posts) if posts else 0
+        max_videos_in_post = max(len(p.get('video_urls', [])) for p in posts) if posts else 0
+        
         posts_with_links = sum(1 for p in posts if p.get('links'))
         
         print(f"Постов с фото: {posts_with_photos}")
         print(f"Постов с видео: {posts_with_videos}")
         print(f"Постов со ссылками: {posts_with_links}")
+        print(f"Всего фото: {total_photos}")
+        print(f"Всего видео: {total_videos}")
+        print(f"Максимум фото в одном посте: {max_photos_in_post}")
+        print(f"Максимум видео в одном посте: {max_videos_in_post}")
+        
+        # Пример вывода информации о постах с несколькими медиа
+        print("\nПримеры постов с несколькими медиа:")
+        multi_media_posts = [p for p in posts if len(p.get('photo_urls', [])) > 1 or len(p.get('video_urls', [])) > 1]
+        for i, post in enumerate(multi_media_posts[:3]):  # Показываем только первые 3
+            photo_count = len(post.get('photo_urls', []))
+            video_count = len(post.get('video_urls', []))
+            print(f"  {i+1}. Пост ID: {post.get('id')} - фото: {photo_count}, видео: {video_count}")
+        
         print("=" * 50)
         
         # Сохраняем также отдельный файл с последними 10 постами для быстрого просмотра
