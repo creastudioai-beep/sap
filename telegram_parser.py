@@ -8,7 +8,7 @@ import requests
 import urllib.parse
 
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
-MAX_POSTS = 300
+MAX_POSTS = 100
 CACHE_FILE = "data/cached_posts.json"
 
 def parse_telegram_channel():
