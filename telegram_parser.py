@@ -2,10 +2,9 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
-import urllib.parse
 
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
 MAX_POSTS = 200
@@ -16,7 +15,7 @@ def parse_telegram_channel():
     all_posts = []
     next_url = CHANNEL_URL
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     }
     
     print(f"Начинаем парсинг канала: {CHANNEL_URL}")
@@ -30,7 +29,6 @@ def parse_telegram_channel():
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
 
-            # Ищем все сообщения
             message_wrappers = soup.find_all('div', class_='tgme_widget_message_wrap')
             print(f"Найдено сообщений на странице: {len(message_wrappers)}")
             
@@ -42,8 +40,8 @@ def parse_telegram_channel():
                     'id': None,
                     'date': '',
                     'text': '',
-                    'photo_url': '',
-                    'video_url': '',
+                    'photo_urls': [],  # Изменено: теперь список
+                    'video_urls': [],  # Изменено: теперь список
                     'links': [],
                     'parsed_at': datetime.now().isoformat()
                 }
@@ -63,7 +61,6 @@ def parse_telegram_channel():
                 # Извлекаем текст
                 text_elem = wrap.find('div', class_='tgme_widget_message_text')
                 if text_elem:
-                    # Удаляем ненужные элементы из текста
                     for br in text_elem.find_all('br'):
                         br.replace_with('\n')
                     post['text'] = text_elem.get_text().strip()
@@ -75,41 +72,71 @@ def parse_telegram_channel():
                         if href and not href.startswith('https://t.me/') and href not in post['links']:
                             post['links'].append(href)
 
-                # Извлекаем фото (оригинальные ссылки)
-                photo_wrap = wrap.find('a', class_='tgme_widget_message_photo_wrap')
-                if photo_wrap:
+                # ИЗМЕНЕНО: Извлекаем ВСЕ фото
+                # 1. Ищем фото в обертках с background-image
+                photo_wraps = wrap.find_all('a', class_='tgme_widget_message_photo_wrap')
+                for photo_wrap in photo_wraps:
                     style = photo_wrap.get('style', '')
                     if style:
-                        match = re.search(r"url\('(.*?)'\)", style)
-                        if match:
-                            post['photo_url'] = match.group(1)
+                        # Ищем URL в стиле background-image
+                        matches = re.findall(r"url\('(.*?)'\)", style)
+                        for match in matches:
+                            if match and match not in post['photo_urls']:
+                                post['photo_urls'].append(match)
+                
+                # 2. Ищем обычные теги img
+                img_tags = wrap.find_all('img', class_='tgme_widget_message_photo')
+                for img in img_tags:
+                    src = img.get('src')
+                    if src and src not in post['photo_urls']:
+                        post['photo_urls'].append(src)
+                
+                # 3. Ищем фото в других местах (например, превью ссылок)
+                other_imgs = wrap.find_all('img', {'src': True})
+                for img in other_imgs:
+                    src = img.get('src')
+                    if (src and 'telegram' in src and 
+                        'photo' in src.lower() and 
+                        src not in post['photo_urls']):
+                        post['photo_urls'].append(src)
+
+                # ИЗМЕНЕНО: Извлекаем ВСЕ видео
+                # 1. Ищем теги video
+                video_tags = wrap.find_all('video', class_='tgme_widget_message_video')
+                for video_elem in video_tags:
+                    # Пробуем получить src из тега video
+                    video_src = video_elem.get('src')
+                    if video_src and video_src not in post['video_urls']:
+                        post['video_urls'].append(video_src)
                     
-                    # Пробуем найти прямую ссылку
-                    if not post['photo_url']:
-                        img = wrap.find('img', class_='tgme_widget_message_photo')
-                        if img and img.get('src'):
-                            post['photo_url'] = img['src']
+                    # Ищем source внутри video
+                    sources = video_elem.find_all('source')
+                    for source in sources:
+                        src = source.get('src')
+                        if src and src not in post['video_urls']:
+                            post['video_urls'].append(src)
+                
+                # 2. Ищем ссылки на видео в других местах
+                # Telegram может использовать data-video атрибуты
+                video_links = wrap.find_all('a', {'href': True})
+                for link in video_links:
+                    href = link.get('href', '')
+                    if (href and ('video' in href.lower() or 'mp4' in href.lower() or 'mov' in href.lower()) 
+                        and 'telegram' in href and href not in post['video_urls']):
+                        post['video_urls'].append(href)
 
-                # Извлекаем видео
-                video_elem = wrap.find('video', class_='tgme_widget_message_video')
-                if video_elem:
-                    source = video_elem.find('source')
-                    if source and source.get('src'):
-                        post['video_url'] = source['src']
-                    elif video_elem.get('src'):
-                        post['video_url'] = video_elem['src']
-
-                # Ищем дополнительные ссылки
+                # Ищем дополнительные ссылки (не телеграм)
                 other_links = wrap.find_all('a', class_='tgme_widget_message_link')
                 for link in other_links:
                     href = link.get('href', '')
                     if href and not href.startswith('https://t.me/') and href not in post['links']:
                         post['links'].append(href)
 
-                # Добавляем пост только если есть хоть какие-то данные
-                if post['text'] or post['photo_url'] or post['video_url'] or post['links']:
+                # Добавляем пост если есть данные
+                if (post['text'] or post['photo_urls'] or 
+                    post['video_urls'] or post['links']):
                     all_posts.append(post)
-                    print(f"  Добавлен пост: {post['date']}")
+                    print(f"  Добавлен пост {post['id']}: {len(post['photo_urls'])} фото, {len(post['video_urls'])} видео")
 
             # Ищем кнопку "Загрузить предыдущие"
             load_more = soup.find('a', class_='tme_messages_more')
@@ -120,7 +147,6 @@ def parse_telegram_channel():
                 next_url = None
                 print("Больше сообщений не найдено")
 
-            # Небольшая задержка между запросами
             if next_url:
                 time.sleep(1)
 
@@ -143,23 +169,36 @@ def update_cache(new_posts):
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
                 cached_posts = json.load(f)
                 print(f"Загружен существующий кеш: {len(cached_posts)} постов")
+                
+                # ОБРАБОТКА СТАРОГО ФОРМАТА: преобразуем старые одиночные URL в списки
+                for post in cached_posts:
+                    if 'photo_url' in post and isinstance(post['photo_url'], str):
+                        post['photo_urls'] = [post['photo_url']] if post['photo_url'] else []
+                        del post['photo_url']
+                    elif 'photo_urls' not in post:
+                        post['photo_urls'] = []
+                    
+                    if 'video_url' in post and isinstance(post['video_url'], str):
+                        post['video_urls'] = [post['video_url']] if post['video_url'] else []
+                        del post['video_url']
+                    elif 'video_urls' not in post:
+                        post['video_urls'] = []
+                        
         except Exception as e:
             print(f"Ошибка при загрузке кеша: {e}")
 
-    # Создаем словарь для быстрого поиска существующих постов по ID
+    # Создаем словарь для быстрого поиска
     existing_ids = {p.get('id'): i for i, p in enumerate(cached_posts) if p.get('id')}
 
     # Объединяем старые и новые посты
     for post in new_posts:
         post_id = post.get('id')
         if post_id and post_id in existing_ids:
-            # Обновляем существующий пост
             cached_posts[existing_ids[post_id]] = post
         else:
-            # Добавляем новый пост в начало (чтобы самые новые были первыми)
             cached_posts.insert(0, post)
 
-    # Ограничиваем количество постов и сохраняем только уникальные по ID
+    # Ограничиваем количество и сохраняем только уникальные
     unique_posts = []
     seen_ids = set()
     for post in cached_posts:
@@ -168,7 +207,6 @@ def update_cache(new_posts):
             seen_ids.add(post_id)
             unique_posts.append(post)
     
-    # Берем только MAX_POSTS самых свежих
     final_posts = unique_posts[:MAX_POSTS]
     
     # Сохраняем обновленный кеш
@@ -184,34 +222,42 @@ def update_cache(new_posts):
 def main():
     """Основная функция парсера."""
     print("=" * 50)
-    print("Telegram Channel Parser")
+    print("Telegram Channel Parser v2.0")
     print(f"Канал: {CHANNEL_URL}")
     print(f"Время запуска: {datetime.now().isoformat()}")
     print("=" * 50)
     
-    # Парсим канал
     posts = parse_telegram_channel()
     
     if posts:
-        # Обновляем кеш
         cached = update_cache(posts)
         
-        # Выводим статистику
         print("\n" + "=" * 50)
         print("СТАТИСТИКА:")
         print(f"Получено новых постов: {len(posts)}")
         print(f"Всего в кеше: {len(cached)}")
         
-        posts_with_photos = sum(1 for p in posts if p.get('photo_url'))
-        posts_with_videos = sum(1 for p in posts if p.get('video_url'))
+        # Обновленная статистика
+        total_photos = sum(len(p.get('photo_urls', [])) for p in posts)
+        total_videos = sum(len(p.get('video_urls', [])) for p in posts)
+        posts_with_photos = sum(1 for p in posts if p.get('photo_urls'))
+        posts_with_videos = sum(1 for p in posts if p.get('video_urls'))
         posts_with_links = sum(1 for p in posts if p.get('links'))
         
+        print(f"Всего фото найдено: {total_photos}")
+        print(f"Всего видео найдено: {total_videos}")
         print(f"Постов с фото: {posts_with_photos}")
         print(f"Постов с видео: {posts_with_videos}")
         print(f"Постов со ссылками: {posts_with_links}")
+        
+        # Дополнительная статистика
+        posts_with_multiple_photos = sum(1 for p in posts if len(p.get('photo_urls', [])) > 1)
+        posts_with_multiple_videos = sum(1 for p in posts if len(p.get('video_urls', [])) > 1)
+        print(f"Постов с несколькими фото: {posts_with_multiple_photos}")
+        print(f"Постов с несколькими видео: {posts_with_multiple_videos}")
         print("=" * 50)
         
-        # Сохраняем также отдельный файл с последними 10 постами для быстрого просмотра
+        # Сохраняем отдельный файл с последними 10 постами
         if cached:
             latest_file = "data/latest_posts.json"
             try:
