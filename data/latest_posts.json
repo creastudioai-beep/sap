@@ -10,7 +10,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:52.699942"
+    "parsed_at": "2026-03-11T07:40:45.869608"
   },
   {
     "id": "sochiautoparts/80027",
@@ -23,7 +23,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:52.699207"
+    "parsed_at": "2026-03-11T07:40:45.868863"
   },
   {
     "id": "sochiautoparts/80026",
@@ -36,7 +36,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:52.698710"
+    "parsed_at": "2026-03-11T07:40:45.868388"
   },
   {
     "id": "sochiautoparts/80072",
@@ -49,7 +49,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:50.047968"
+    "parsed_at": "2026-03-11T07:40:43.359292"
   },
   {
     "id": "sochiautoparts/80071",
@@ -62,7 +62,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:50.047429"
+    "parsed_at": "2026-03-11T07:40:43.358759"
   },
   {
     "id": "sochiautoparts/80070",
@@ -75,7 +75,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:50.046902"
+    "parsed_at": "2026-03-11T07:40:43.358243"
   },
   {
     "id": "sochiautoparts/80002",
@@ -88,7 +88,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:54.047793"
+    "parsed_at": "2026-03-11T07:40:47.178942"
   },
   {
     "id": "sochiautoparts/80000",
@@ -101,7 +101,7 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:54.047163"
+    "parsed_at": "2026-03-11T07:40:47.178321"
   },
   {
     "id": "sochiautoparts/79994",
@@ -114,15 +114,18 @@
       "http://sochiautoparts.ru/",
       "?q=%23sochiautoparts"
     ],
-    "parsed_at": "2026-03-11T06:42:54.046332"
+    "parsed_at": "2026-03-11T07:40:47.177511"
   },
   {
-    "id": "sochiautoparts/80366",
-    "date": "2025-12-17T19:58:45+00:00",
-    "text": "https://t.me/boost/sochiautoparts",
-    "photo_url": "",
+    "id": "sochiautoparts/80367",
+    "date": "2025-12-17T20:43:17+00:00",
+    "text": "В Китае назвали самые качественные машины местной сборки — в рейтинге нет ни одной китайской марки.\n\nТачки оценивали по негативным отзывам и присуждали штрафные баллы, а победители выглядят так:\n\n1. Audi Q6 совместной сборки SAIC-Volkswagen;\n2. Honda UR-V от Honda-Dongfeng;\n3. Honda XR-V;\n4. Audi Q2L от FAW-Volkswagen;\n5. Honda Avancier от Honda-GAC.\n\nt.me/s/sochiautoparts\n\n#sochiautoparts",
+    "photo_url": "https://cdn4.telesco.pe/file/W2T9Rq5tO-7yGnz51ZNJdCSA5njtxQgy3mXg4QQ43zeKi8SK6nYVm42gUTEHOTZdsopAA8z-CgXshU6b7jgSEbnMvcFZceySM81A9351vFQDQIE1MCIKJ6dUhK5D8kdGEtNwcZ7Xg5xRB63KxOPOSpu4flPfvj2DwNUXO9edsLxZ3NRnFsSmky-Uwq-vQp7t-nAtT4xv7cOtY8NaUXSdy55VudDPq5mLDeuPwg2NQLFySMoshG_kW0d-VpiPaorO6TFlA_mMKRZTogT3fHQ9nYw2nnXw4kmZa9UmVBmNYajH2n5galyYMR8O0X0TwCIymjhNc6UZ9NTjr0yvX4l8Lg.jpg",
     "video_url": "",
-    "links": [],
-    "parsed_at": "2026-03-11T06:42:32.462582"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-03-11T07:40:26.831895"
   }
 ]
