@@ -1,60 +1,34 @@
-name: Parse Telegram Channel
+name: Telegram Parser
 
 on:
   schedule:
-    # Запускается каждый час, в минуту 0
-    - cron: '0 * * * *'
-  workflow_dispatch: # Позволяет запускать вручную из интерфейса GitHub
-  push:
-    paths:
-      - 'telegram_parser.py'
-      - '.github/workflows/parse.yml'
+    - cron: '0 * * * *'  # ✅ Запуск каждый час в 00 минут
+  workflow_dispatch:     # Ручной запуск
 
 jobs:
-  parse-and-commit:
+  parse:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/checkout@v4  # ✅ Обновлено с v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5  # ✅ Обновлено с v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Telegram parser
-        run: |
-          echo "Текущая директория:"
-          pwd
-          echo "Содержимое директории:"
-          ls -la
-          python telegram_parser.py
+      - name: Run parser
+        run: python telegram_parser.py
 
-      - name: Commit and push if data changed
+      - name: Commit and push if changed
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Проверяем, есть ли изменения
-          git status
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add data/
-          
-          # Коммитим только если есть изменения
-          if git diff --staged --quiet; then
-            echo "Нет изменений для коммита"
-          else
-            timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-            git commit -m "🤖 Auto-update: parsed posts at ${timestamp}"
-            git push
-            echo "Изменения закоммичены и отправлены"
-          fi
+          git diff --staged --quiet || git commit -m "Update posts data [skip ci]"
+          git push
