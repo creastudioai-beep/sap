@@ -5,16 +5,20 @@ on:
     - cron: '0 * * * *'  # Запуск каждый час
   workflow_dispatch:     # Ручной запуск
 
+# ✅ Добавляем права на запись
+permissions:
+  contents: write
+
 jobs:
   parse:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5  # ✅ Обновлено до v5 (Node.js 24)
+        uses: actions/checkout@v5  # Node.js 24
 
       - name: Set up Python
-        uses: actions/setup-python@v6  # ✅ Обновлено до v6 (Node.js 24)
+        uses: actions/setup-python@v6  # Node.js 24
         with:
           python-version: '3.11'
 
