@@ -8,7 +8,7 @@ import requests
 import urllib.parse
 
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
-MAX_POSTS = 2000
+MAX_POSTS = 3000
 CACHE_FILE = "data/cached_posts.json"
 
 def parse_telegram_channel():
@@ -18,12 +18,12 @@ def parse_telegram_channel():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
-    
+
     print(f"Начинаем парсинг канала: {CHANNEL_URL}")
-    
+
     try:
         session = requests.Session()
-        
+
         while len(all_posts) < MAX_POSTS and next_url:
             print(f"Загружаем: {next_url}")
             response = session.get(next_url, headers=headers, timeout=30)
@@ -33,7 +33,7 @@ def parse_telegram_channel():
             # Ищем все сообщения
             message_wrappers = soup.find_all('div', class_='tgme_widget_message_wrap')
             print(f"Найдено сообщений на странице: {len(message_wrappers)}")
-            
+
             for wrap in message_wrappers:
                 if len(all_posts) >= MAX_POSTS:
                     break
@@ -63,11 +63,10 @@ def parse_telegram_channel():
                 # Извлекаем текст
                 text_elem = wrap.find('div', class_='tgme_widget_message_text')
                 if text_elem:
-                    # Удаляем ненужные элементы из текста
                     for br in text_elem.find_all('br'):
                         br.replace_with('\n')
                     post['text'] = text_elem.get_text().strip()
-                    
+
                     # Извлекаем все ссылки из текста
                     text_links = text_elem.find_all('a', href=True)
                     for link in text_links:
@@ -75,20 +74,19 @@ def parse_telegram_channel():
                         if href and not href.startswith('https://t.me/') and href not in post['links']:
                             post['links'].append(href)
 
-                # Извлекаем фото (оригинальные ссылки)
+                # Извлекаем фото
                 photo_wrap = wrap.find('a', class_='tgme_widget_message_photo_wrap')
                 if photo_wrap:
                     style = photo_wrap.get('style', '')
                     if style:
-                        match = re.search(r"url\('(.*?)'\)", style)
+                        match = re.search(r"url('(.*?)')", style)
                         if match:
                             post['photo_url'] = match.group(1)
-                    
-                    # Пробуем найти прямую ссылку
-                    if not post['photo_url']:
-                        img = wrap.find('img', class_='tgme_widget_message_photo')
-                        if img and img.get('src'):
-                            post['photo_url'] = img['src']
+
+                if not post['photo_url']:
+                    img = wrap.find('img', class_='tgme_widget_message_photo')
+                    if img and img.get('src'):
+                        post['photo_url'] = img['src']
 
                 # Извлекаем видео
                 video_elem = wrap.find('video', class_='tgme_widget_message_video')
@@ -106,7 +104,7 @@ def parse_telegram_channel():
                     if href and not href.startswith('https://t.me/') and href not in post['links']:
                         post['links'].append(href)
 
-                # Добавляем пост только если есть хоть какие-то данные
+                # Добавляем пост только если есть данные
                 if post['text'] or post['photo_url'] or post['video_url'] or post['links']:
                     all_posts.append(post)
                     print(f"  Добавлен пост: {post['date']}")
@@ -120,7 +118,6 @@ def parse_telegram_channel():
                 next_url = None
                 print("Больше сообщений не найдено")
 
-            # Небольшая задержка между запросами
             if next_url:
                 time.sleep(1)
 
@@ -132,8 +129,12 @@ def parse_telegram_channel():
     print(f"Всего собрано постов: {len(all_posts)}")
     return all_posts
 
+
 def update_cache(new_posts):
-    """Обновляет кеш, сохраняя только актуальные данные."""
+    """
+    Обновляет кеш, добавляя ТОЛЬКО НОВЫЕ посты.
+    Существующие посты не обновляются и не перезаписываются.
+    """
     os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
 
     # Загружаем существующий кеш
@@ -142,24 +143,34 @@ def update_cache(new_posts):
         try:
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
                 cached_posts = json.load(f)
-                print(f"Загружен существующий кеш: {len(cached_posts)} постов")
+            print(f"Загружен существующий кеш: {len(cached_posts)} постов")
         except Exception as e:
             print(f"Ошибка при загрузке кеша: {e}")
+            cached_posts = []
 
-    # Создаем словарь для быстрого поиска существующих постов по ID
-    existing_ids = {p.get('id'): i for i, p in enumerate(cached_posts) if p.get('id')}
+    # Создаем множество ID существующих постов для быстрой проверки
+    existing_ids = {p.get('id') for p in cached_posts if p.get('id')}
+    print(f"Уникальных постов в кеше: {len(existing_ids)}")
 
-    # Объединяем старые и новые посты
+    # Добавляем только новые посты (которых нет в кеше)
+    truly_new_posts = []
     for post in new_posts:
         post_id = post.get('id')
-        if post_id and post_id in existing_ids:
-            # Обновляем существующий пост
-            cached_posts[existing_ids[post_id]] = post
-        else:
-            # Добавляем новый пост в начало (чтобы самые новые были первыми)
-            cached_posts.insert(0, post)
+        if post_id and post_id not in existing_ids:
+            truly_new_posts.append(post)
+            existing_ids.add(post_id)
+            print(f"  Новый пост добавлен: {post_id}")
 
-    # Ограничиваем количество постов и сохраняем только уникальные по ID
+    print(f"Найдено новых постов для добавления: {len(truly_new_posts)}")
+
+    # Добавляем новые посты в начало списка
+    if truly_new_posts:
+        cached_posts = truly_new_posts + cached_posts
+        print(f"Новые посты добавлены в кеш")
+    else:
+        print("Новых постов нет, кеш не изменён")
+
+    # Удаляем дубликаты (на случай если они были) и оставляем уникальные по ID
     unique_posts = []
     seen_ids = set()
     for post in cached_posts:
@@ -167,19 +178,23 @@ def update_cache(new_posts):
         if post_id and post_id not in seen_ids:
             seen_ids.add(post_id)
             unique_posts.append(post)
-    
-    # Берем только MAX_POSTS самых свежих
+
+    # Ограничиваем количество постов
     final_posts = unique_posts[:MAX_POSTS]
-    
-    # Сохраняем обновленный кеш
-    try:
-        with open(CACHE_FILE, 'w', encoding='utf-8') as f:
-            json.dump(final_posts, f, ensure_ascii=False, indent=2, default=str)
-        print(f"Кеш сохранен. Всего постов: {len(final_posts)}")
-    except Exception as e:
-        print(f"Ошибка при сохранении кеша: {e}")
-    
-    return final_posts
+
+    # Сохраняем только если были изменения
+    if truly_new_posts:
+        try:
+            with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+                json.dump(final_posts, f, ensure_ascii=False, indent=2, default=str)
+            print(f"Кеш обновлён и сохранён. Всего постов: {len(final_posts)}")
+        except Exception as e:
+            print(f"Ошибка при сохранении кеша: {e}")
+    else:
+        print("Кеш не изменён, файл не перезаписывается")
+
+    return final_posts, len(truly_new_posts)
+
 
 def main():
     """Основная функция парсера."""
@@ -188,30 +203,31 @@ def main():
     print(f"Канал: {CHANNEL_URL}")
     print(f"Время запуска: {datetime.now().isoformat()}")
     print("=" * 50)
-    
+
     # Парсим канал
     posts = parse_telegram_channel()
-    
+
     if posts:
         # Обновляем кеш
-        cached = update_cache(posts)
-        
+        cached, new_count = update_cache(posts)
+
         # Выводим статистику
         print("\n" + "=" * 50)
         print("СТАТИСТИКА:")
-        print(f"Получено новых постов: {len(posts)}")
+        print(f"Получено постов при парсинге: {len(posts)}")
+        print(f"Добавлено новых постов: {new_count}")
         print(f"Всего в кеше: {len(cached)}")
-        
+
         posts_with_photos = sum(1 for p in posts if p.get('photo_url'))
         posts_with_videos = sum(1 for p in posts if p.get('video_url'))
         posts_with_links = sum(1 for p in posts if p.get('links'))
-        
+
         print(f"Постов с фото: {posts_with_photos}")
         print(f"Постов с видео: {posts_with_videos}")
         print(f"Постов со ссылками: {posts_with_links}")
         print("=" * 50)
-        
-        # Сохраняем также отдельный файл с последними 10 постами для быстрого просмотра
+
+        # Сохраняем файл с последними 10 постами
         if cached:
             latest_file = "data/latest_posts.json"
             try:
@@ -222,8 +238,9 @@ def main():
                 print(f"Не удалось создать файл с последними постами: {e}")
     else:
         print("Не удалось получить посты из канала.")
-    
-    print("Парсинг завершен.")
+
+    print("Парсинг завершён.")
+
 
 if __name__ == "__main__":
     main()
