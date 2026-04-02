@@ -11,8 +11,8 @@ import requests
 # =============================================================================
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
 
-PARSE_LIMIT = 1000   # Сколько постов парсить за один запуск (для скорости)
-CACHE_LIMIT = 3000   # Сколько постов хранить в кеше (история)
+PARSE_LIMIT = 3500   # Сколько постов парсить за один запуск (для скорости)
+CACHE_LIMIT = 3500   # Сколько постов хранить в кеше (история)
 
 CACHE_FILE = "data/cached_posts.json"
 LATEST_FILE = "data/latest_posts.json"
