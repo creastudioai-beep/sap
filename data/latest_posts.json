@@ -1,127 +1,173 @@
 [
   {
-    "id": "sochiautoparts/77013",
-    "date": "2025-10-12T10:43:28+00:00",
-    "text": "RR La Rose Noire Droptail\n \nДвигатель: 6.75 V12 BiTurbo\nМощность: 600 л.с.\nКрутящий момент: 840 Нм\nРазгон до сотни: около 5 сек \nМакс. скорость: 250 км/ч огр.\nСтоимость: 20 млн фунтов стерлингов\n\nhttps://t.me/sochiautoparts",
-    "photo_urls": [
-      "https://cdn4.telesco.pe/file/kFPLt0FyhdHdwjD3J7nIqwaTEBDWiZh8PhdRtKMGG1OG1wO-aK7qFJvxy9Wpq0ruZiOI7OzLmkX6SHM3ZE6rhIedG7CQo3aSJah_XKwgeq3xQETdz-eEo6G_UWTMGlUkP5ieBR9WdxKcYb005nKjhPKxULD_BA_OqF5c9SeUQGLvtlfUd9013JiXPqxRXEOX_fOFr0ndP96XADvgZq4jZCBJHtxa4zebVKFaHWVCicxZ6JIn7XX5g0tDB8eBWu4pccS7ZE3gUMltzgOoW5yGLzqdGq21Fxzc-tLM-c_ef-kyvW2cP2QzCtfKnBvDUHJ8eKobLHIFN95dpYcqvqHWog.jpg",
-      "https://cdn4.telesco.pe/file/Yg_3ybRXYbaNA3opH8qsYhAXus_P4YnPtuMtmxUo-Di8dgnmWvt9KWGBbadTR-KSskenc96b98GWMU0sVlgccQARPG8apUEk2xzgSDlyjFN8DOUXgHR1YViwyajvYZOSC4X-jofvZbj9tABUhehfMqotzFOyjfZCEZHxXH0vCVV7kYOVenOAr43Yt3zXKtmhlfHs164_Isp31BxPdRKVX7DH4a6IO1c0Css2eWXP3uT5Q2y2ZNeGSqmGs3U7UmewSj9-qywuX9nCGb485KypExvYTpBHHhaLSgZB6czvTB5EPh89x1lHlgt_5OQBJiZeKlfYC6GWlIL_1rREjSSrpA.jpg",
-      "https://cdn4.telesco.pe/file/dpQSbfVrIOCkBxQw8VLQWUu_WJpLEczDVeLxZ153H_cjlvRMkOy99VVKlXwf2scl5tBBcshpgrQ1JbevfIqcsnypUOTLHvg4Hg4XAu--hjPc6mNqrRWSzQmhuxWiYYOfz0UvLhWY-gdOw7p7t1oQ59eSiJOCbwW6Ygb05jLnItU8x54uIeHnZIuALC_2qq8rALuaXG4CjUEcGwVkgNzFhUlptjd9YFO00nYoXmop03sXah7BgDAwNPiTLl5246Kk_Lh7y8gSLieNK7LbQKB3--StqBP2c1XceiF7FFhaq9qrVKRmZGoKGOlXqiVmD8kEvM8Wn6H7zf0xmlZJL4jwUQ.jpg",
-      "https://cdn4.telesco.pe/file/GsWQ9VvRzejQwZ6vnL8TkF_8f-PZlJlIhkGqH5BjyjQzy2mMJ6F3ahPUgpaoeRkH6xrnfLLFFgzgcLoHdGdM56PoBWvO-A6NyrBuYRGh5mwVNCfhWc48gRrz5oTWagBKrriAQ3BXl-EXS2YCJWCAWwridOyrM44vPx-UuA5Wzd6aKSP7NfwO4f0VtOhfwfLIYeMvLSIJrCzkizBo0r1UV8ZYEZXRXNcQ1-y0gLWpqFu6bKnttsMwTA863cYHkIugiNo7c-eu_0tKbju0a35iAtzu_PxBxQqjm6NsUkSqVi3tovOd_x75XyKuhXsn4dCVGFGku2ojCd0X9lgafgc6aA.jpg",
-      "https://cdn4.telesco.pe/file/BoTegq1qJ-hJXQBFVvfvLjQe0j4VKz7z6b4suOdG7UYXXLUe9CcJ86A83Oxs8kdiaorwXhWbXmk3PVCD_Pdg8fxjFCB8WksCQUoXbek9TXUjYUj5yoH8IRE6mheVsuBD2PCN7IRnqOgI8B2lSn_N-AxVJdwtWOmzI5jhIo2jinBAwCm-jmbtzCLj9dsLAZszcuA5YXfvHl7IXaHPCbjkgcD_fgKqne_fr7j4HboQ7oovszj4NXci9x-ahU2lM_pb4jbb4LfnhzpUsUl7r7aLVtf9cGE0IopJZhTRbJh6AwEgp9XnuVQkWZt1aooVaS-ISoOwmxXGxaK2OLYhnlbecg.jpg",
-      "https://cdn4.telesco.pe/file/GwFuIBB4cn76odW3AJgmtGLELSXY_LBqnLDFM45U7HLub1ufYiGow4YOgsyHDR9iaeQYbDJrfgpTBwwJm86tkXj0TJ7gxxZeEtYAuBtHBvEfGhRCa1xYJOtXxjDOXeMSPK7JBPH-OybYuvdocHO4sCsb45YEPYNxzhgP7lfcSCbexCwB6OhLWqGTrNly34QvxEeMIhLsCs5yRs7r3eV4IJBbNVsSUsPxzzAEeyVJrXAN_o2cZI3JLTRxzPRNkWt2faN3CW28lzK_K4E40n5b6WNnunqO42-CsCS3WKV3aUpTXzwUv3twUgHi3v6NJyq1-Cjvno6ol3oaPBg7AKwurg.jpg",
-      "https://cdn4.telesco.pe/file/lYXSd1R5YNYFD94Af2NZInVYwWvmi2l9hFkYSxXcXil9wAnihXwZxdRAjdjhwRb1irQj7oPHrxdhXZZIVeTjI35y0S5molf1r8nFef6EvgiLpdoo1Uwls2Kn2ym253n-Pu4vUNmFmAmRhXH8qIvZcTZxoV5Md6Ij9BaKsrMcbDS57FjIDeQWNMISFGP21PtMoD2_m0wDTnC-eP5cv-KleOmSeaU7VYTwcvQ1yYCMhHwKS7eWiv5KfI64o6uh6CCDOxt-3ZSGe-Iyj_2KxyT9_U6Xd_JAOUj-Xd_CuO37rmwkzs-jx9ARwYZ-MH38mGcEtjW6GZUYKS1_qPlgQcBsxQ.jpg"
+    "id": "sochiautoparts/83797",
+    "date": "2026-03-06T17:45:12+00:00",
+    "text": "Chery Fulwin X3 L REEV 2026\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
+    "photo_urls": [],
+    "video_urls": [
+      "https://cdn4.telesco.pe/file/31ab1a76f5.mp4?token=b10xCqHB1BXKpDNC0FXPtdTomfZCRriqEKt9MjlcNodBLnHjmpfWdzpVh0aDCibCN5GkmygCB5TAxEazn4Eug5qbAg5b1uaUKyGJygeZv2_2FE10LtLXNF0WST1LU-Y9vFJTfk1qVYMmP5D0JXFF5ENzdUFZGXfNFNfbob5ilyZWgOMqg9DbTKjEJu7FM8WBKDerv3yaUEYKLj3DJ5lcDLKQZZ4dRqbcqqhlpYlFyMcDa0Ky9_Oz9RYYMru2zz_QrGPdIHH-LcBuxPNnu41-yvKq9_O4hJN-ReHhk4sw4LCPvWkknMJOKB4y2InZtMQULGrfPVyxGH3R1e6sMnCkuw"
     ],
-    "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.619046"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.976925"
   },
   {
-    "id": "sochiautoparts/77012",
-    "date": "2025-10-11T13:03:08+00:00",
-    "text": "https://t.me/sochiautoparts",
-    "photo_urls": [
-      "https://cdn4.telesco.pe/file/n-rD6BFMYWYXfIHuMsnKU5fbwtSaLTgXNGF0_p8W4MWaihF6aXn44h0lxSqXbXLXlfLr3FuW28_mvNQCEjSsD-yi0_6xAIjK4mmK8RzKcJlPtp2FXjDzAz-WEtJ7OM2jAL4IyUuwPVT_buH1DuCcc9FJUA7Oy770ZrXhlssFEZ5NQ5OtV6DjxmkJmTywu2P8Al__vy-qr70h5y-NjCWgaNNN9_8LocgC7ZPsXeEf5mvCtZuej-uqhjyz-e9cgxQsGRGDKI7V0ggpxHbh1dD8XJPkkbmu1B5q5rEHbd8W2uz4TKSk-ywjDL6iwNOQdBwFI3OXXPOxkmWInzqJMoTm-A.jpg"
+    "id": "sochiautoparts/83838",
+    "date": "2026-03-07T12:39:08+00:00",
+    "text": "Bugatti Chiron Pur Sport\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
+    "photo_urls": [],
+    "video_urls": [
+      "https://cdn4.telesco.pe/file/2cf58dcbed.mp4?token=eFSlrgrXUng3f-cRFTZEsryNyNZRxue7mYs8CP1ibZ2Ny0TnVAGaoiyJBYz-M2x22zoXscZW2YNiMJ45M1dmgGVOgaaFa93g3uUAhrU-LGGZuU4Rjfz-ephP4eaW4F6iSotHnevfn9UuYgnCXiZvwApatAJvluga6vRXGlzDV3zv8Guh5yWD6wz42F5-yPeZ6wnsLf3mWySY_nXTSaNWJ0L7feg-TCY1bUF9RV8H71eYQJcIsl1p6PKBYGs-JnGdPLax3D0gmtxysRufL4gqAPlKvK2hVJVUWynGNgwuIaLaq5qvJ8KrettCeXcKSwXv5hMcUcXC24r0rtCkKmMFtw"
     ],
-    "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.618665"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.204474"
   },
   {
-    "id": "sochiautoparts/77011",
-    "date": "2025-10-11T13:03:01+00:00",
-    "text": "https://t.me/sochiautoparts",
-    "photo_urls": [
-      "https://cdn4.telesco.pe/file/UvbvaCyikiIVqdd0EitWRw0ZlvvrN_u2q69188lVrzSULv5qZZ2i-x3j9__B8gsUizfoQt5Sp2IrFD1Trqr7vQA-fDvnUekzRdtv-D7_48dV9l30SGskENmRNpMw59B3m75YOwenAovyzon40DjOYCsUmiUcbLTDdBgsD4tt19udMWHCl9t6_FKqXERFaXGh5ckhFMYW8jflxVb8R6hfAwCmJMhjvIR5eXLIfeTXkA0c8QikWaNMTJuRdhMXutMfVWUtR6nqRs6-6rc8cHiOm1YQtl4HlbcsScKGE-zxh2GdqdQseQ9qP4A_Zj-p5cXr-3dse_FDThUWglMuaeJRxA.jpg"
+    "id": "sochiautoparts/83837",
+    "date": "2026-03-07T12:37:20+00:00",
+    "text": "Acura NSX  \n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
+    "photo_urls": [],
+    "video_urls": [
+      "https://cdn4.telesco.pe/file/9da89cc358.mp4?token=CWIXVJNEoEU72emP7dBbgijCvWX-bDredoHf_yUZUHtoARV3mdnI_B648sY0AZukuSTHoIFspF85z5thNqXLatONX736b_O3DVIDaEaqsXl8ExT3wjdZWXd5FpYMRFUjePO9shBkrAuMnafpsvXi2HGj7wmzN28y3WcNJY7RRp8owzfaNLeVt2avqyblS6eVxEvCGutmV8QjGcc1D8a2cNg9kPCVFR7IoC5eBjCdUQCyGLaC5wqnxyi4S72O9qftDPIRN4amaoV34Z6jBUWVJO4Qp5aU78NUqjQqe-N99H4-tzP45pcZlP42MqBUUlV_NV9BJaozNvPUIIAH0bIxzA"
     ],
-    "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.618299"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.203889"
   },
   {
-    "id": "sochiautoparts/77010",
-    "date": "2025-10-11T12:25:18+00:00",
-    "text": "CTR расширил линейку компонентов подвески\n\nКомпания Central Corporation объявила о расширении ассортимента деталей подвески, выпускаемых под брендом CTR для рынка послепродажного обслуживания автомобилей.\n\nВ сентябре 2025 года, как сообщает пресс-служба компании, линейку бренда пополнили в общей сложности 92 новых артикула.\n\nНовые детали подвески CTR предназначены для автомобилей ряда американских, европейских и азиатских брендов.\n\nВ расширенный ассортимент вошли, в частности, три новых артикула шаровых опор: два для автомобилей Ford, Lincoln и Mercury и один – для пикапов Chevrolet Silverado и GMC Sierra.\n\nЛинейку пополнили также 89 артикулов рычагов подвески для автомобилей таких марок, как Acura (2 артикула), Audi (1 арт.), BMW (4 арт.), Buick (2 арт.), Chevrolet (15 арт.), Chrysler (1 арт.), Dodge (12 арт.), Ford (7 арт.), Honda (8 арт.), Jaguar (1 арт.), Jeep (2 арт.), Kia (1 арт.), Lexus (2 арт.), Lincoln (1 арт.), Mazda (7 арт.), Mercedes-Benz (1 арт.), Nissan (15 арт.), Toyota \n\n@sochiautoparts",
+    "id": "sochiautoparts/83834",
+    "date": "2026-03-07T12:33:55+00:00",
+    "text": "Ram 2500 получил «лунную» спецверсию Lunar Edition\n\nПикапы Ram 2500 Power Wagon и Rebel обзавелись ограниченной версией в честь полного лунного затмения. \n\nОтличия: двухцветный кузов (серый сверху и чёрный снизу), фирменная графика, чёрные диски, лебёдка у Power Wagon и электроподножки у Rebel.\n\nСалон получил чёрную кожу с оранжевой прострочкой, тиснение с названием версии, сейф и аудиосистему Harman Kardon.\n\nPower Wagon оснащён V8 6,4 л 411 л.с., Rebel — турбодизель 6,7 л 436 л.с. Цены: $86 385 (≈6,82 млн ₽) и $93 885 (≈7,42 млн ₽).\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
     "photo_urls": [
-      "https://cdn4.telesco.pe/file/UzMmNA5XS8HNXRz4zwnjh3olkx5T5eYWs2rPmWF9zJcUY4VDBFbwuII2jtpmfXQvAgZfNkRhCHoxX4Pdgl3vbaRCHNdaGUNMN-bcGV7sMqGJHJiB7D3FYhLuC6u6a9ucCXGXdfCj3e8asUESl6wDvJvJ7dLXL-BqlwuQfJPTT7D-imP6HTvBkb6JQ6nwlfypK1aOU8q-2QePbH4xpbQ4cnKP9_X8f49oPS968FhH69X3jOQhaj4NBP3A8cMJjxlea5GTajiBfPXSqqJhrwQTGZ_ene5D6hn_d5EKZZ2dXYvV8Y_SuaAVVdDlFt0-PGPTpJ7xVuuOVz10p1aCV9ys8w.jpg"
+      "https://cdn4.telesco.pe/file/BvpuENKBW4267LGYHFoZuAseceI5GgxTYidUuCnHlzJYOK-BfOFHIHJRApsrZg-FvnNyAqPNILj8CmZanlEu8AmI_sHoe4WyOuregeLE79jfaDGrzfwrhJnE1n2hhkc1Ujm6q3IIoE7FLfU7uqRs2gvOh970TRV5QU2d_bJbXjyFbAknSXYJ92dw45UsOX0WiomYauYAS_sdP5cho0goQvvjOedojJTON42MO4JkRXRDKxnpZlY-B_VsY5kxsIqoxmSKtD1USLHK_yB7fNiJs4sTNaEJJh3nSZ8JDq0FJX04mCDwTZV9F8MD7sU6dFOWZiElq58KId5qT9oAiYSZOw.jpg",
+      "https://cdn4.telesco.pe/file/meuHeDsFvsjkH7lI2KOzt4IAC9w1gx0ahKQ7ML4Y8iKikDPQpatf6TFO4sbMI6ZSOMjGxRT162qXOdjQV5Ui190J5vuzU-Q8WpeHGWmp3_SdksdGnHHvFwF50G5DzrL7pMrlPEvOCUgMkHp6_5aZPjUpmybTLggbD0zLvklsjV6_vOYQmcW3dQpGfph_QZxg1mOSdt64bl-BgtM-Mqcx-K4mEgKJ6rIAqUoZroGXMelJIjSrv3LaBe-dzs05v0FakNDQ3nWLpYZxs5O0meg42vCApk1bhcjFoWZNsX0D0wW27F-7X5b3XBLMStrn6hnbP4cvtlGdu0T7NfXGLUqYNQ.jpg",
+      "https://cdn4.telesco.pe/file/M7Y1OuZ3dj1AisybPwpcC-glwGuDhANG9xCaJ0PPqllchRAXaFAKTJlblbbxJ3svrce7rfjmYQGbg-WfJra5cM4Wp71SX1Ej6GbmP8utRVI6f954NpgeET9thoQwx4BviMMb5BJ1dn0cVfcRgjfYKrLdytjFCj-M2ow_dXuxhSApLp4kxoOXykzB5zqU4fOAB0781xp4jNbZYU-R24JRhEnvBvq2-phGq38W73Qs1S0hHK-2gqakaLYg-E-4m4LaXYdlM4SiI86eWwFLINJoRcLiOtnq1gAKgd85CrdSl38YBaQ1cql05oBhzR2g9jgwOaMiVBBQP9t4DDVujDfCPg.jpg"
     ],
     "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.617798"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.203193"
   },
   {
-    "id": "sochiautoparts/77007",
-    "date": "2025-10-11T12:23:13+00:00",
-    "text": "Brembo представил 37 новых деталей тормозной системы\n\nКомпания Brembo объявила о расширении фирменной линейки деталей тормозной системы, выпускаемых для рынка послепродажного обслуживания автомобилей.\n\nВ начале октября ассортимент автозапчастей Brembo пополнился в общей сложности 37 новыми артикулами для легковых автомобилей и LCV, сообщает пресс-служба компании.\n\nНовинки повились в линейках Prime, Beyond, Xtra и Essential. \n\nhttps://t.me/sochiautoparts",
+    "id": "sochiautoparts/83831",
+    "date": "2026-03-07T12:33:22+00:00",
+    "text": "Hyundai заменит Ioniq 6 в США на «заряженный» Ioniq 6 N\n\nHyundai не будет выводить рестайлинговый электроседан Ioniq 6 на рынок США. При этом появится новая «заряженная» версия Ioniq 6 N с ограниченным тиражом. \n\nЭлектромобиль оснащён двухмоторной силовой установкой: cуммарная мощность — 609 л.с., а в режиме N Grin Boost — до 650 л.с. Разгон до 100 км/ч — 3,2 секунды, максимальная скорость — 257 км/ч.\n\nМодель также получила адаптивную спортивную подвеску, усиленный кузов, тормозные диски диаметром 400 мм спереди и 360 мм сзади.\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
     "photo_urls": [
-      "https://cdn4.telesco.pe/file/XBHcltippyWEcbbmfaEQxqCD4z-xIGQY-wQO4awnNl9uOMgS7VFJhVysqjbG57oTh1Bdq53TjIju68whLFaNR4_M1GM8SFCWWlbSQBJHoATNLjz-MEn_cmvajnkbkPgctADjpyDmQxXuVpTA2UCmOetUsRg4aydnm7SM5eQbgEwJSy-BhbO8Cx9w9W7KL-Z9I8xrS58CznGOg1zQZtzAi2AvauvX6FqLM91uwOxCF53qJBaSvx7YS2TREKaB6Noam1MTq_M93W3mRzuQlQNdviziKJVCEdiYZGOZ3NQI5EqVyTPCr1mJIsYizgrDvfUv95LIwl46mpseURMIZv7KCQ.jpg",
-      "https://cdn4.telesco.pe/file/ECNQzG33m6OrgYEPMig0KOkMuBYLY0rvnvQ8_FPE9weCpawWTOzGz-tqoCPvYmrjBTpnZ6rWrAxW1xQ4pjqcuhJhftRKfSpBV3ZLhXbgzcZkbw7w_oRA0Cuorc-oapInp5uIjPAM0vH0hWE2IJK2CAYQP18SKo2VUkoTXznt3Cy89Ljs1ioTLHBp0IwbvOII3zZrgbAnU9VFaHHVfU3epeyBurA0rANIz_BIKfgxuKU8YalHK5_-VEEJfeBqiyZvzB7LxXSdAMbxO4_HTFa5W4l5Ftw1UKwUCKnLU4jo7C3UTkFxmbEENRhzdCuCsVXvU7E60ngO-i35_MhJRbaLrA.jpg",
-      "https://cdn4.telesco.pe/file/XbUgy57GdQBJVxaS6qxxb238JcBF57uXUpN8Ix3iMVGwzisQxRIhW7rcjfFEUlyshQ9tVvXuWDr5i0xx2JYHw7-VJbZUAWzdAHgVVCie_ggddf1WTk5NE3g1X7HoJzf2kirGqwgcmAHciYugoWYf4h_tDHik3UxECg0VrCejB2HftN_C-dc0IS2PKXtKsJY3qXf-mPWcaMQFoUeXpfIK1bjiDPcdujcTl1IM3ryiz2dyvYBdhDr703QkGFDvrmWrgNflTqdu6SsPry_Be4udbwFzk9-5pJal86NnR8ApDc0fc7coukOCFOXTjc0XbssRPnlRxPl3QJk4wBe0zcLqfQ.jpg"
+      "https://cdn4.telesco.pe/file/mRLIztbYDGLbw45WkmVk__ylPcFIPzAEQ0_GqY7oUu4aD8k4HCynKwdwMXeSx73EXFZ6QjCneVvXOtRCuEatE0IAAD_St2PMXDCeI2lSJRgACl1Yads5f3cc6HesWy5mfnO3bqD33I904xrfOwRqzqmhXUqgm_s_hmKdKzz-x7rvYwEim4ErYpC5M4oQAjk3w3ACOZ2EtFG3G42VucwpQgd61ZEdxyL3IRtjmOGN7JDnLaGsKQEJWjuFHamMb7OKyylcZhF3PGjdGoE1VDZ6GIz0U5s5ofcT1BKvvvkJHXdGVvQhcIzM1YfgS1aYO1oMAfEmNabLL2bQX0TvVyrStw.jpg",
+      "https://cdn4.telesco.pe/file/mFZoEm28zYGyjmN9lm1-zW3_alLZVdQuSqR-4WJ0MO73k5KZu9g4BKPj9GcnaAGI-LZo6ZMpD5iIJTUQG9IhPIpQ3rCsDbAo0BSjKtICETAsSJNDandeN4qpzYL_Ux2HP5MrCkwxCRic-vLB1ltT6PaAE16kSrxXtQWIiiUj3S4gx1ybPzLTM5O_CQpFAhm4csGU-o-gSqsdO_qqa01GymWxkmSt3CtzacTk3Cx_9RKH5--R3Yf7vCP8izc5IrqVUn7I1wBFGYwolEaoAkW4apcnyNaBatGOS_Zp1smaVnVyTs6y_fRIHqn7O8pGG2kvsRDOIlWH9WrIOLNNVjAGtw.jpg",
+      "https://cdn4.telesco.pe/file/LTw--A-tjs9vsfVoHGQVJeCxPm2KokkVmqitbacxhNr-brVj7OQjrIoxQuZwp9fmhUWVq3RVIGbJD4JHCL64xFshbR23doW9ZBkgpqnmvBFrJ5yYSmbuCX0IM9TpdkfiCZjgK5QW-WvlSYZxCjZm4JDPbvae0uJC8nhz9aic3jlY_dW0Ps-vgegkEqXNcnz6vNcvevsKjVfV_maz5spWCBW7liCwjYrNL5vHF35Wk14lhibqtS0alqCsTlha3tud0KXUeG1y2am58PbnjpM72j8mIBnpPWYRa2BRHEx0MeO6oGprd3nllwV4hNtwvUeSc-DffLFa9cSW65VJGU2qbA.jpg"
     ],
     "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.617183"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.202535"
   },
   {
-    "id": "sochiautoparts/77006",
-    "date": "2025-10-11T12:22:15+00:00",
-    "text": "Бренд Miles объявил о запуске продаж на российском рынке комплектов ремня ГРМ серии PRO для автомобилей марки Lada.\n\nКомплект с артикулом AB08200 предназначен для автомобилей семейств Priora и Kalina с двигателями 1.4 л и 1.6 16v.\n\nВладельцам моделей семейства Granta с мотором 1.6 8v адресован комплект с артикулом AB08201.\n\nДля послепродажного обслуживания и ремонта 8-клапанной «Гранты» подходит также комплект с артикулом AB08211, в который дополнительно включен водяной насос.\n\nВ ассортимент комплектов ремня ГРМ Miles серии PRO входят также модели для ряда популярных в России иномарок: в частности, Renault Logan/Sandero 8v 2009 модельного года (арт. AB08202); ряда машин Volkswagen Group с моторами 1.6-2.0 л (арт. AB08203); Ford/Mazda/Volvo 1.2-1.6 2001 м.г. (арт. AB08204); Skoda Octavia/Fabia, VW Golf IV/V 1.4/1.6 (арт. AB08205); Opel/GM 1.2-1.6 8v (арт. AB08206); Hyundai i30/Tucson, Kia Ceed / Sportage 2.0 2003 м.г. (арт. AB08207); Hyundai Accent/Getz 1.3/1.5 2000 м.г. (арт. AB08208).\n\n@sochiautoparts",
+    "id": "sochiautoparts/83828",
+    "date": "2026-03-07T12:32:51+00:00",
+    "text": "Купе BMW M4 переделали в 510-сильный пикап\n\nПроект реализовало ателье Dinmann, за основу взяли полноприводный BMW M4 Competition 2022 года. \n\nУ автомобиля срезали крышу над задним рядом, превратив заднюю часть в грузовую платформу с откидным бортом. \n\nПод капотом осталась 3,0-литровая турбошестёрка на 510 л.с., но двигатель получил карбоновый впуск и спортивную выхлопную систему. \n\nВ США за автомобиль с пробегом 12 тыс. км просят $145 000 (≈11 500 000 ₽).\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
     "photo_urls": [
-      "https://cdn4.telesco.pe/file/ZUyL8DxhtKrUmc6m3HO8f39SLfZoJZOyt0RqHzmbT-leGUfxmThjXeDBQl__Kmnnv3HX9YYyeCcctkKu6WVGoOW_8ngvFIMSvmUbO-_JmxbLpucsbyWnHxQfqQ3zxIcjQg0roGc7zpxq6CVflhRhnhX6Ii0mH2XpFQiDYC3nwFU7aN1i9DSejr1GBKpNe1Hs6Gz8G6BuMnOAIuBiO4g58vgwRbVSGX4dFCN-RZB-X_xELP00JlNCLlyUQ5i2VZt0GFQD5jU1LntuYBfK8euqrjzMvIR073iWU7YsGJuk5xXOHLEH-mhzaXJizVnOQ30GIwZaiXegYGxGU1fv2vDm2A.jpg"
+      "https://cdn4.telesco.pe/file/kWAcTzD-0YrzMG1l7ajfDF97rBQqYaLl451Y7-Q0P_sUnXfruKCVTYCq8aPPz7dLbz5DmS-xOTDXdVc8c42mIXwppMLzVhdaEkd9K9nW0mkFQOWg_ox1fKYk3r_bGWzH8h-oEpPB_2jd6t4SqbptcjdwrrahMOyLt6mPTDWYpkNwDoTOr_ihFRqDluvueEXzoMv5DAwmuDBE6h5D_VjC_-HDQgkWzaqiB9uDpGPt106EY3WLK_BWe5zk9-nF5TbRubEQO-icFNmIfNUgosqNxVKXB2DisqCLU37q8_npgBNvF3wvFC7VpII5YTvJo5H8DVc75SkQ9IaAyenaDHjq1g.jpg",
+      "https://cdn4.telesco.pe/file/AjHQqRZjwoUou8Atmrst9W4UlBXE3HlVazZ36s8xF71DFoxZUd4mwLdfEV6rW2o7mY89r_ECiGGwPAxZfr3cA_T7m8CzDVXh5hW7sD9W0MFD2cHx3HpnT0rOj9TXvJJpBtlyGz2WwKuDkrc3VFPragDup80sZpjeovXWE2P8UOl7FpNk6PlSK1it5uDX-b2e7czblUX-w4QTX3q-XPx5RcBzL8KzkNz4xeJdgZR7FrzTo6W46QP91hemL-u_SS7SWA2CIy1FJ1y4JHgnmzWigsjzZrAQXdip6aEY0452KfutfEeqPqjJw2N6yREU12PovBYDWBAIW54Msm3VQ66ZvA.jpg",
+      "https://cdn4.telesco.pe/file/YL7VjYtpd_1oaqJTHSVAks1-F-tipL7KHwWcsUKTWCoOpgkZF-PP6ebnPc1_vUu2d14Gzi48RN7eOGl4l_pwYpX0lGYnobrsoiL9RUVc6njuyrp95lo96m5yMVZ5UMa_aaP9EzVkJ9Jt7ddllV5Eu4FpCElzjheji3-qiZgnVtNMwm4nCnBUa2OFAn8m_ofpQ4PsBbgJ_TDgdyRGU1oA94tA6TDJ1vLhjxsbLg4r_jg-LVrhJL7peAZzMzRex1ZAuP7hcz8nxcNvW_nEq3xWCidxYjb_LzG9ZdmUKyB360PCMjseJJhqU1Ppyw68vpSeZiAfSpq047Dpbg4a6M_pFw.jpg"
     ],
     "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.616671"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.201830"
   },
   {
-    "id": "sochiautoparts/77003",
-    "date": "2025-10-11T12:20:55+00:00",
-    "text": "Volvo завершила выпуск универсала V90\n\nМодель выпускалась с 2016 года и прошла рестайлинг в 2020-м. В компании уточнили, что остановка сборки — плановое решение, не связанное с рыночной ситуацией. \n\nПоследний экземпляр не поступит в продажу — он занял место в музее Volvo в Гётеборге.\n\nhttps://t.me/sochiautoparts",
-    "photo_urls": [
-      "https://cdn4.telesco.pe/file/GEAUkyN6aAhRPoOJulIEHvLoxQlyaKTUc9KeH8CF7NQ1FAzHqEEugOZTZbvUnvIXUgHVWkR26vsRTkKu8zKIy0BhiRzzYlx4bP5km3mjs1TzBrNpxCpTi_c-9HWXnqGOWQaDgSAHiZeODBgCHcAV3Vm9cshUnBqgjSQYmccIhVjp8Agrxsqy1WrC7AA96K6995dR6UL3vz5K6681kHzwEj29ERwWniTNRRvqrDCKOh2lQTqqEVMf3rd4BoJSXOxJRpsh6aRp8hg3cXcHis-vtk_A6Xu04aYBECvCLrhSQmAp9kRW_JiQeebKJIy7GmUJtdYuDx85f3y2WX0GQ40aOw.jpg",
-      "https://cdn4.telesco.pe/file/bhJITQ1dcqlRiMSXcd4LhYDmeG39siS21hLl14S1eYQ6mJzTw4rI2IVn-oL5J864BYzMHM7Kx3YE6sqpxR_PHfqh24DPCPTTdPLApkbDAWqBIG4G2FgOQCRQWlo4HwFTmut1uM8ADMkXeRAvp28VAqnBbyqR7NgjMl9Jo1_QQTMuMpv0OvnF_I8Z9nowlbQUVtzGUInVtbCH_UVoeAsJM5PtFZRs4bg4LXj37PrwhkTA47NgKXS4DR4nZ_9y553vOV9R39EhMD7OsqiY9GI54PSgXiDkwkkTCnKH4sPvf9rCiNeeH5csNNmMbPOMjJO9LvnJw4kvWY9-ZKoXQ5rzMA.jpg",
-      "https://cdn4.telesco.pe/file/RusY-cCMBvD9kFWbRGVv3X87mV8i-_DJrR5ez-pIK1jfC6I32TfF8TEEhr2gYxxrSipNUUt3vidOfrOpCYwOqZx-wQOPT21XFcpQxwbuc7mWmDcwWr_AxkEiVMzTSRc4uhBmaqu66fE84vEfJ-LmcXpvbUYOJAE3vNx2boE3lg58abouclMzQOVFri4ALTky8if3u1qHt3p3k9MqNqImMbpSI3nI9GXOprziNe5VFD8yvaI8Hl17hcJ4Uk4S1bMc7OeFgBQjaXg3j6eMljOJhaQKkDxpawWnGoGwiLkrhaABCVcQweYUxzmxbS-j78JS8G4E0bdFdnmcwiwpPK3u9Q.jpg"
+    "id": "sochiautoparts/83827",
+    "date": "2026-03-07T08:55:04+00:00",
+    "text": "BRABUS 900 ROCKET EDITION\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
+    "photo_urls": [],
+    "video_urls": [
+      "https://cdn4.telesco.pe/file/e74c58451e.mp4?token=B2TT-qZrVyoEdGPiZWkfc4XDQKkf8mvi0O4D-xHo1_WtyFeNEQHm0FTmkaR0FnnBTYFKl9WO8Cep84G7AzyMuOQdyroFng8VQD8oqT8NTM9ircoaFxp3zIFSqRN9xtoEwqMM1FI_oF6-RhHWZXmbXus-NV7fqA3nhO18SNfYT3lBwO8L4UiaiELooWTcyvAKSfOPnZl_u5afuvdDgJsdc4oczwiBHr_9UZ4Jzry7QXIRbB5hf1t188tLScPDXUcNA4lrwfBvs1Mhzeqwf0-Ret1jU_9T2MHdseY7rA1reauF_Xj53TgdiV1hUnvNKINCO8EQjoXGtbDNsQezguDC7g"
     ],
-    "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:58.616051"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.201244"
   },
   {
-    "id": "sochiautoparts/77042",
-    "date": "2025-10-14T09:33:36+00:00",
-    "text": "Nissan показал первые фото обновлённой Ariya \n\nNissan опубликовал первые изображения рестайлингового кроссовера Ariya, официальная премьера которого состоится в конце октября на Japan Mobility Show.\n\nВнешне электрокар приблизится к новому фирменному стилю и будет напоминать свежий Leaf.\n\nhttps://t.me/sochiautoparts",
-    "photo_urls": [
-      "https://cdn4.telesco.pe/file/aY0_Por5WXyusyXUZNwu-_MBkk25EfDJg5QV5OEcr5J7oL43ajTEYeR4tE5JP595oXQoCICWzk4t_OoefVYQ4i3XRDh_T9dDQEshVNRLex6yaPE8qpHqTR1VLwbI57mePX9uJlTeGXG5YxxbYwftwh6b9XDqmJsNXtloy-23OchBKJGhny_KahzoBr0E9i-xSAdN5CkAlyG5aN04PRlIyCG6cl-61eIOboTSh7V_E-14LNl8u13hU2NeGVV1uHByWICat8esJ-596opKxCau7RnkBqv8LI_eLV5Ry6OqE6hXE4PUx4almOfz_ZYg3c4QcTfsPndzxvJ4xA30YgMeJg.jpg",
-      "https://cdn4.telesco.pe/file/ej8BTq7nQNyRRjwdpi7oWUuAnRVl6Sx0jghMXU-R4IgB0lyMv3libHLwhAzu62rNsGZWDJotENbEOi_l1vqi9bIh3vpQnIyrDmhX46QC4FVUTBKGq5hQgDh1WXoBf5E4pbSo8GSqa6n5OubhTIwU0thAMH7yHkPWd6IJZqWe_G11N8VhpRZuNuVCW-jm8U3XsNJduZh14oleptHtM04rvfUJhVEJDn9KYIOfU8Ofnp_hepIrufg6_zU__v-5Wh2kz24HIFqKN0pfXvBd1P646BunOazxguOnvH2F7cCZ5NVhRQCeZ2MKVObNEfHhNSopZMIMEClZDpmNwig-O3SMDg.jpg",
-      "https://cdn4.telesco.pe/file/VkFqJu_awEh7qHUEonttUOUkE3HydJrdPL-isQBNClreu41IZ8x1rleGXPJWz_MkZ9uES0YPZAYwuLiRWUVcSM7npFRwf7aYQQo3EQ2BoJtOwVUBtsgpk3VgobF5u_qtC1upogYhb2VaZH2q1YnTUXYsBoCzr1v5vzTQsKTzDdSPX4v5ubhJgLs0Lwf3Qy7laWOy01OJGCbpirbk16-eUlo7XTH-XR_bKnYOv0uSv_KSufHWeLqbM3s4U46z_stF7huxENI6i72u4EHeyhxjUFaEKNjJ-bZDDu5XpSoYvFnuRVHg-AW2EvNCM4QcFwVU6HIfTyG-l1s9LZZzykHpcA.jpg"
+    "id": "sochiautoparts/83826",
+    "date": "2026-03-07T08:53:36+00:00",
+    "text": "BMW Alpina XB7 Manufaktur 2026 года — последняя модель своего поколения. Выпущено всего 120 экземпляров в США и Канаде, цена составляет 181 550 долларов.\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
+    "photo_urls": [],
+    "video_urls": [
+      "https://cdn4.telesco.pe/file/0cfe3a8c97.mp4?token=tPUxlhbFiWNyVbNmUNtKDsT4nukJaMT7h3s-XdEVem_lBsPOHRYJc5Wcrpix-uxsS7XPoRl042vPqvQaTrI7m0CBEgs1Qx6UzZLw7DUnqdVzvwOa6QGujTFlY68LZhvO0Rh2-En8-8ZmnojsON9diVJdfHyluh8eSH_dZpklnGNBCSXCXoveItPTXymJie6QkMk-73TAxINGeYceT6i0lbyJs5O00HE4fiaJLz0Ry090M2VShwuykvgFRtOdTa5YPtdarw_k0fKBsY22AbbbCNdTDU_jvrrmMY0V0dFZovbmHz2HNrf3z1N6w4VAM1kMhC6oVpuObEb4hfT4KNAsB4WOpGPPJgrUDPjvR3m_yJOfwRxPGsEpzEljmzYPM_ib305LxFaLPd8quvZ40nG9StDJNw4Nax8aoRuL-b8n-6oBPvwGr8dv3EhiyaKqNfG_gV9yGSa5ZYGah72x-eD3NdPOT5KFLz0rHzzCgVpF21iBWL2Mh-pu7emhKtuQ6RrzYc-exPxNBiFoTJJ4PSz4BcA7I0RbPUvvLPVvJS478EhQjqh_St8RHpk-3Wpaz8lMgpmY2V0l6NDEKTgkiX0IrwOxzwQ6jsb7EQRO3f6H6YGX2g2aDZYSErWvG97giqxzjDm64dEXG5M0_9VmmbDUMpm4EEasNpxSft6FvnJPxA8"
     ],
-    "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:57.699140"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.200673"
   },
   {
-    "id": "sochiautoparts/77039",
-    "date": "2025-10-14T09:32:51+00:00",
-    "text": "Bentley создала уникальный кабриолет GTC Speed \n\nBentley Continental GTC Speed создан ателье Mulliner по заказу британского коллекционера.\n\nОсобенность кабриолета — интерьер с каменной передней панелью из материала возрастом 200 миллионов лет толщиной 0,1 мм. Кузов окрашен в оттенок Violette (фиолетово-синий), салон отделан фиолетовой и сиреневой кожей.\n\nАвтомобиль оснащён 4.0-литровым V8 с двойным турбонаддувом, мощностью 779 л.с. и 1000 Нм. \n\nhttps://t.me/sochiautoparts",
+    "id": "sochiautoparts/83817",
+    "date": "2026-03-07T07:22:52+00:00",
+    "text": "Lotus показал заряженный гибридный кроссовер For Me, который выдаёт 952 силы и разгонятся до 100 км/ч за 3,3 секунды, разгон до 200 км/ч занимает 10,5 с.\n\nВ недрах Lotus For Me скрывается разработанная холдингом Geely платформа SEA-S с 900-вольтовой электрической архитектурой, первым носителем которой стал большой кроссовер Zeekr 9X. Силовая установка For Me состоит из 2-литрового бензинового двигателя и двух электромоторов, а дизайн интерьера почти полностью повторяет электрический Eletre. \n\nБатарея на 70 кВт·ч обеспечивает до 420 км хода на электротяге и до 1416 км в гибридном режиме (CLTC). Снаряженная масса гибридного кроссовера составляет 2575-2625 кг в зависимости от оснащения.\n\nПродажи в Китае стартуют уже в конце марта, позже модель выйдет и на европейский рынок.\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
     "photo_urls": [
-      "https://cdn4.telesco.pe/file/hahWUCLKaeaxdvZiGDm9PeD9RtgG-oxsOukYK6xb966ESdalIiU46M7uBy4Tw8OoefbUskl_Z_FtZQK41Dj1ld_Zm5IrSJTgKzu9MLQq0LTJFpfBiwWgKzD0eh74uCiBDnCsVdy3l1r4tVVnJTL1SgTyzQDVwu9i3Yh439kHJ2dtgO2iVJGIhpOH4Qokq2-Zac1T8Th5346On8V2eJCuIXuJ8zdzJW7CiTdrcWM7IhG3VZTVfc-t14MrSydWmjl8HC_tQ0_m3TqwTPMeVQQZmR39Ka-w7YUNDYvzKwLM_MBDmDjTj9aRv9oO-49DIqjg0WbYf1elc6VqDRglZXdZ2g.jpg",
-      "https://cdn4.telesco.pe/file/dB4DkJI7-pbN7QTpdMJnUZ0QdSNRcgJD7GfNDN5M5e0ZF39GwZm4kY3UyAtytrdhQQA7lVq7sdb9BTOE8Yp8DJ7FoVrToW-EQr2TiLCzN3FoJlP-21UWxJyrYzwmPFtYirN_rYu8_UcKdKEkB369nAeodl4GvTVOa5JJWIUBIhl54KzxjWquM06pdJvx3m6HrmgZPnN6QdGUdiE_ryWCHt9oYfPqgvEEn2FozC_1bETrneXbZLndF1GZCxBllQe_ry1EO25GfVQc3oRjR4nuzecDvqEbzxMm_hG-1-ovLoXgiORhLHfRYu8roR3g-H7cgKk3PH9xgWW6qoxB93TlSw.jpg",
-      "https://cdn4.telesco.pe/file/aDTdjwAzbsE1jJCfmUOPJHj6P51T1ycFrqFRnNMQjKAn8R1THBss1YZDv8VWqYxfS2S-97Vke_PxpK_CHBHWXajt7SVikCnTGkDS7Vv7tzCENjICrEE0_-hCWamrrvZ_UgLPGlAZdliX_kQc4ltcBXekF66_ej0jJbFGV6s9RaYVj8USigOVm5wiHeXAppi6xHchM98VAe5tDcEfkKGAQkPgAKQD7l4ErJlylsiTBmAOliTe_XQFMmF_gaKFgKDInGFi5syXpYhJGTGGzWTmbvtdEkwpM8QKRw7MzcVBip07eRvREF1oXnhSW5CB6dCar4ZUFBs_oG9DwqaSXL47Xw.jpg"
+      "https://cdn4.telesco.pe/file/rWSDmGzSbsG2W2pn2pDyHfEdqBNGFTGluQR2ujuLa23PV1nQ454dd1ZktPEOrIOBLcxrUPBA8gugLeI2ovnnSJctwQUpJpoPqh_XPJA0WnAu8hNyGhTMizhMmtpKhbpeAuBkpR7ofFzDw-lzlM_bYpL-gig9hzBpmQpPQ745fXaAtybSyXYmNfNi5e31DrJGpzVfPdltfFrJL4zZ55P7lfZ4ts7E-jtLKTf4eoNe4kU3EQqD3aqliN2fOhO-ESVnODe8XNGemxBi7DgO0zIVtgRS3LowR_10aTTks0uinCx8narui0pNpGLTaLB73faJ_Gq5LlnYupLn2Mm-WHynyA.jpg",
+      "https://cdn4.telesco.pe/file/JZRonMRkedc4RroWtRn37i8N4vFDy3C70_8In1CvJpRhkepodzVHGr0Nw8y1D1ftRvGVppN_A89d2jmy_Xn2NS9A024Oe3Mz-eagLmgjb_HNrfLYJ2t02twocET3nxNWiXzR07hj0jkdDxS9pFedtA2SdQABJrB16fALCH4Wqw08LEhR6Msltsd3Ukeu8wBTkv0doTEzOEbovtwVD8KD2EPjrK9sbSsKAnveagAcW3KTfgR9tqzq6TRE_CDsElesGBwlCGB9crlmxbqIrQ9EhDxY9XzQyjdWgaeE0P20uz3mwwJ4ZZECSny_35Hj7V0G16PqOY0zy8aS4h3ahmggNA.jpg",
+      "https://cdn4.telesco.pe/file/HgkYJHBP9D6iTi4oexnKueMaQ1tbje4Np0nRMAf1G0UtgHk3c4mH557mkbYtXpVt9XW_Yt4iEYoogBwAkRPAS4j-m4rWOktugZsRct_fmroB3ZGK9q0_9J3FAbi8vOcdcnkKLLe6XfLNPIUBz7yp4JkddyHDGKpRZPi8uN7LMREJwkuS2lO5JzIRWuGUjPqeIbZ6ALXYjkL-YuBcZ0nzaIy1gwyofC0gzIeaNcePdXzZMaEL1VDWkcSybkHUELc3Y7N8-YbA6ycnTANnk6KmsiTnYJ064SjKBHtxxVBevqqJ2tckX37O2hRrfCOx5iqF-JWeWy0JEDlyzQZLhPfr0w.jpg",
+      "https://cdn4.telesco.pe/file/W8u-1lxIswQ52fey80BhHKW9kBVRImMr5eUHzdi5oIoPYFivlAbblFBSOVwdKvKwP6-UfgP1358_g3BTTtcFFtJ7SaXsaHQ5WblGKeHtEmUAWFi1XaVZ8uKwF0PtuYBmO3LZJ8ilHhrl4EY9LFeffKWmKVEQ_4S2VsQF0z2ZLFkgHhAjrQxckci6IqAnBKUu7WbzRVGMlerFHrPf7p0nRSYYh4-_9EirU4G7v_0u3GXIJS0j3iTtrDNijpqe5jPNa4NPEMDVZRaKkeooSRXlZfw_PWEyss_9vq_v0HrNlzCv1o1H6n7V7BG8wG38xORPdNSF2MuNqvk689uzgFxLVQ.jpg",
+      "https://cdn4.telesco.pe/file/gbPi80jBcQmwCttiSEhZo6Omjj0vNhS9vG_Be-fa0jn_I_dSDIZOvHSVoStvW-wX_8-mob_gn3CzWW22OhQJyEnzz4XcJzWgZQq8YECwjnPc_8EsDClMB5O7-HnwgGOqa-ZYA6SE344BLRtIjiqJjO_PXA3sJ0bC2S4eYdSqk7XiLZtB8hR6csD20d-6lGiFdMou9fNV8puhT-zvDes7KvOHxbDB19SfnNqlZZcNVi9QGkVLsyakMfEwUdsnsUiWSUIUbihvpAED64uzKNzetOeYG9BZ06G1IYqfKak5lVI6Ryj7OxGHxEbrKnJo6zBJRgR6JIrI2uYPmJ95duchsg.jpg",
+      "https://cdn4.telesco.pe/file/ehK1n46T_yic7VaeeuPMpJp7SiIc1lDarz_CSXvTw29SEpa4f0S-MiqSHzHBlNwKc97NEC-E_pghds1-kQbRHaIHUCryD09I6jo56JA5mmSDPlOXYx3Jie93w2-buH4FRozSSnxmfqmngkInp7QXIBAL9QGZgBC-Js6x0CgwiADLnnhrLmh89n6pnX99SgnVw70MW0SkuXd3Gdkdoz6fZM4ITEdTthtmW9ocE6bElCNmMTYcid09H3QJ0bdTKiFvRsONcDh4HwagKhTtrd67Wfyye8Gvcuk3AWTLNgZ8oDqxPjQHOKcI1DEf1Fnj36uIZVk_R8Aw3vEkTARF5onIxw.jpg",
+      "https://cdn4.telesco.pe/file/V6aR5A6dsoaW2PFC_VfMlqf714Td1JA7r13AkaVU3pKldCyRFQkfr_sGULBpetGYxObMcCbeKRWMaGgMARxa_GJcX2XkTtNff7nqEUfB_30feJVZXXuqo8Lm0ooSSjvcqZbQ2n83jsPAfxJOW1QNdHqSITsB4T8us243YPZYgoyx70ecBwWDhaPVa9OO1TRdUpIkQszanHN52y4kYZ1YhChrry_3t6MriH-Uc0UUTX-TVKThreLxuVJi_vON9i96InEme1ed6SGOuuo4jv2tlljWwCd7RzQqSlKHdfrMK68qZWHGRjP9vll4AAeMgK4w540YvJ4Q6Le0klYk0VFqKw.jpg",
+      "https://cdn4.telesco.pe/file/HuxgoAbuDW64JS_ARNcF6G9dZtqxzousHYu6zSgYh5ZB-7V_RYyOft0YVuk2vPRCLeiU49EI-tVXMeogs1YF_qbheP-QZkcujfd8gRaeTOiF2uVLqHHtn-tzuJaDn_cr-aKvyi_kA-rcSTz2Xr4htz0kaHxSSRD1WHh8iqATRxrlZZUzl_QFecFtcM0QHVHGbY1kjMfCbuKru1857JmcfnHnv2gEzRHh1ct_GaA4ZiU9uM1_msUtBiOMtKIdVmzwTX_WWK9BRYTDIMQbYkdjFqg-qFwdiiEU18VpR9zfmf24_KucMKTjSBSWf7T11yOL3dx7kKRenjId6Q2v3kKIkQ.jpg",
+      "https://cdn4.telesco.pe/file/vNSzLt6cniUENdCPJ-ys_k-HW_5oIgjYqGvhmTxr3LlLz1rB2NcB9SOk0Zkk9pBZ4auUdbKByVfZO6SlxphceQCgAtpoF1OvcCNk28DE_G2bosDD6f9qktiUq7Bn_OGGNVrLPd3VQRDPUp8BhssKcLCasz4szYtoSY5EqsdWnRcIaPlR-DDFHpNsnF0yBFu1fR2rb1jOzIofjDAM4p42ATjZ19m7Wgx9eRl31oA7gHuy1bvTgnqCMEjf0wgoD3oxJjKBjGOMCHyIeiOrpRVspEZb4_JW-mHuXnZK9KvCuZny2bgSfTMk784Nc-n5kX5rp1gXRPa2BJAgFeDNPVYopQ.jpg"
     ],
     "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:57.698528"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:11.199683"
   },
   {
-    "id": "sochiautoparts/77037",
-    "date": "2025-10-14T09:32:01+00:00",
-    "text": "Tesla запатентовала надувной спойлер для Cybertruck\n\nАэродинамический элемент автоматически меняет форму в зависимости от скорости: раздувается на ходу и складывается при остановке.\n\nСистема управляется встроенными датчиками, которые регулируют работу спойлера для снижения сопротивления воздуха, улучшения устойчивости и увеличения запаса хода.\n\nhttps://t.me/sochiautoparts",
+    "id": "sochiautoparts/83851",
+    "date": "2026-03-07T15:13:55+00:00",
+    "text": "2026 YUKON XL AT4 ULTIMATE\n\nt.me/s/sochiautoparts\n\nsochiautoparts.ru\n\n#sochiautoparts",
     "photo_urls": [
-      "https://cdn4.telesco.pe/file/IWMw86f_bvCfmqaqSLsM81Lrr471Nueqgy-LCeJEUbk4-Pqe8LwS0P-FkLoy2PTeLuGy07tA240MOW-5LgB7Q2jyOnDwDqXn8yrh_Ku82p6-t-k6rG2-QAFwFQZnfBaSFUL5F1c0g4iSw20tttZlWv8XihU5o7_ojfHrWFi4T7CXmW5oKGxqp_WKmBfLIzS6IPr4kBoJ6GYttFBPGboX9UK1bYTS3t64QkqiGvQWLyhrpJkFUGeQB6Z8CGElHe8RGemMEly7R971zvKI75OjeKqkpE_ER6UM-EAy8QzmCghYwXvT8aRCVD4I0FMjdUPaS_FoyOKAnEM_p1I3hNYJrg.jpg",
-      "https://cdn4.telesco.pe/file/iDj-g0Vr2VowxYgp_6C_cmZMgT28YWCiNPFztB3sGUusKbIiWYmY49b1ZW31frU0vl7T06CADH-U5NDSFRPElKCOe7T9Tz1IzaJPM16l3bRJuMPEgnhevFJzB824CxiJ-Jg8LpRsLzgafGGjo-8OAWRLiUXCqsHol_9QvhXxcXlgW6RJTuV5eAn8s6vWxuELuhISMIfFloNifbGLcWj6fsFJqWNY2FgIipPNdCcRA_0QunL6RFeTfpy0njdmYYBE7B-EeczdFMVTpALbMs-gvGpOtWxDI-QviVpKsVDEbogaRQX6tGZ_JEhpmUTxvOgMHZY1SNXI0VPDadZT9pwGWQ.jpg"
+      "https://cdn4.telesco.pe/file/IP3SnYNmsZcqplh-DDtEeLHhoJjHEMU38ZO1T75DnuvDRrXoFrZuqPn0d3JOS5v1bhCtujyJBYT1Ht9dKIqHYj7Aiwaw4fqA42Z2mn5QqEoxT3z2zu1l60uLCqR5uD_VwR2tffgKAxIwkunpO1iwcWtHsiLnFX3-BCdc8KxhRRrEh_WK8NfHtVouE_tdr5sYgSVqwKOzhWUzlgkXhSlArCtqPkXouuNnRB-UDmP85Uhy1YBpC2mLXdyAxQKOuKTM0A2ADlj_KYjZYzQv2gHfuaTzReenpDXFcOfL0SddwypyQc6oqed-8V-MOuyuWJCTLD4fv8KDkvtT_3Th7zNKHQ.jpg",
+      "https://cdn4.telesco.pe/file/oZYuu4Igdn345iazBtZRBCJOVcolN_AyMFOjDdX-sbDg2fbUhMW2XeZkj9NQHLPzBjkMsXyJwYhRuf9nTL08vx_qQFndMFCpaW-FfoC_FH9OHeKAPeaLc-mIFCuBEgSMlhzwj9dswonWFOeCiE9n0zW5zGvQkfQn8H3aiYNtK-H6Y6Dts16dMu2RjqjhGECZe9j9B3WKa-n5foTI1elMMxtM88jboCFOinkwaAtg9YsS3tR4WJ2fYVxVg29DR9OpthWUs521aYr7AdomA65eKtWCfFIW2Ak8eo4IkMON86X4Bo1UUbovhLSFANYCwHBoUHXHfFnBo0kidzlLwfaDmA.jpg",
+      "https://cdn4.telesco.pe/file/PKAY872YtGP9HFCK6QOFa_bK0WL3byDJikEyUInAqKPIKymh7u9Az1aVHoT0gKYhf76wzuM5ICYU59rldCaEJqSNkDtjbrADGR-kUQTsbrFFuNiyQZCLHEZQSKlg8tAdEPBsTObLzP8X-9zOft9w2iQCJyLP-qwn_zcRzMNZefb0zmFKeB0Zsuqb3ZNCChE7F-GQ-4GYW5NzdN9WvbGUn0yYkhAnsS16FqmI73KB1BL7_SV7t_fdyMydSuchfy4vZa3CwkdbKh5kbsoJOKkpueeKeh1O6IJjNhrdVasV0N4qZMecEm1HVQhPUQDpmpcmO1QyiLG4bjoh3zE2YIEQWA.jpg",
+      "https://cdn4.telesco.pe/file/Q7cO4A1MWhI83-b91wOzKxnGoPWblx0xbJsMCd8uk-ybJUtd9LR86iYow_LWog4JiZPR3xuXD7nSVxkb3XrK94mzT0CvV1FpY9lnPLpet7qc1-iZa_CC8bGFO6911ZrxCmadp5LJCQ6gxLZs86BU8tZ9H9-QHNsdZ2QPLlQm43hm29LnG9bJQsfXZg8Tf5yNFzrEEwfa30wAqGc97NB04BcsN46Qmno5hovXPoys_wrZaCS694nQjfSP2kGN3qVJVzAz5shQZ_41UTIEeCjXCnWc4IDtAqi_NXEBL7rqVmL9pE8qIfYKOYG4CzgeYNLbAkQsnRyg-ohWTWR6-xHj4A.jpg",
+      "https://cdn4.telesco.pe/file/LIV56655Y3QmJYc_errSvcQWqFN0ASF5V0PIlluZ5_zhImxMwB0Banb8PGC3t1zcswYDJHe4siNlUWHsfZYn5S5H5GTHHN21w-MsDrV0XFy-0nigg8z_eq2yFmIRlZh4nhzekcZl_5WkuhadjCGHmoqXqRIHMCHMccp_K60jpgL6ka3EobNjS7XKJ-vxsReAZ9MSkMTPF7itmmU3_z0CzryoCuTZb-bAQBUZksKxzeXquoy8UHiv2Mze993m2F4RFpBjClOnXBs3kDnj0asbUPEHUwyKKfOvp-USogm7YQjdsj-ZNNUyc-JTjfzsU55Du_GFw8wdZe_Pl2N1HmWMdQ.jpg",
+      "https://cdn4.telesco.pe/file/W8pCGqZZDrExZY0JlX1GkRgNWVqO6A_VNZoDdRwfRKMyT84cBs5PkwNa9qiL_bN8NoTD8Ei_S83jovXDYPOQrPkviHz6xi_RG3ooDgVU1qOmFH8pylGNQLIdzMMGo1-akbtgWn2PtY_F1FfeGQ3-aXbea1EebSCUv91qmByebRyfHoR-AxA2y03BWfu-FaQibJuiCezDtXmA3i_l4xszMhgeKtwbS5SyFLvSbLWfpNGCYmwDTWMG2kSpCp0ght1Ew3DwRMbRGFZT7KaoEOgBXBOlwVFB7gdp5Zad0X8TnON88iccWuOssKLhRM_X8fG6JeI8QaeDeeu2NbrJP6TAJA.jpg",
+      "https://cdn4.telesco.pe/file/pjsXRZnSfKpbJ1BoCoPr3HHxSut2DeUMS4rw7krCdTeQovIZkB7Ucyq6XOh9sm1hdMgoImFMPk8MGpSyG0g6G4F_tYPA8XpHuHO3VyR-vh_AqH0uJp9x95AyxvebSBNoqD72TYEIQXllHXO2VtP_-7rI09rM7C0lz6WlBaaTfFkZtopCl9RPTGznxZHSib4wsToSE8pZg5JK6z3Nc1-VI2DqPcXa72TUYHO0LwVP8GeErIJ11rWPBwfHRrSHAlD1Pj0b8foYhmqrQfzZ6fdGQ62VrpQvWeAyfZ21x9cBwAqsRsTHY_gxCZeG8wdpp6QrPhfAvbBUO6K7w_nSDA4wgg.jpg",
+      "https://cdn4.telesco.pe/file/fBvy5Fju5ND16CTXX-QKhtWwycPBKtR_OKKw617YuflO3u2ytF3V8kl-wbUwt1TbJdEAXuFDgtpHgm9wRnULwxR-0JTK74MRuKet7PK3kD9vbhVIu1qwFUYTZjEbeqcuV0AbNMb0XYKPgsbdEcXGrF98cbo6EqvG-oZyxKcJNokCjtbtCP8Q5OFnL2FAz1d2XCCywGeYIYRsXolUO2P-MbI18t2iBWE5Zvaaa-vLSPX1eqc0ru3h05bpXVZyHIsZ3iVsxQwbARI7hPq8o5acbZHSsBNzietWXORGxxfy6gQJYeLPFTpQTYbW81VXKBGj7hv0DsSisbPnNxT0g8L-vw.jpg"
     ],
     "video_urls": [],
-    "links": [],
-    "parsed_at": "2026-04-03T00:05:57.697999"
+    "links": [
+      "http://t.me/s/sochiautoparts",
+      "http://sochiautoparts.ru/",
+      "?q=%23sochiautoparts"
+    ],
+    "parsed_at": "2026-04-03T00:12:10.375436"
   }
 ]
