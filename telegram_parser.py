@@ -11,7 +11,7 @@ import requests
 # =============================================================================
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
 PARSE_LIMIT = 1777
-CACHE_LIMIT = 2200
+CACHE_LIMIT = 1777
 CACHE_FILE = "data/cached_posts.json"
 MEDIA_MAP_FILE = "data/media_map.json"  # Новый файл с картой медиа
 LATEST_FILE = "data/latest_posts.json"
