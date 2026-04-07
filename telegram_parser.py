@@ -10,7 +10,7 @@ import requests
 # КОНФИГУРАЦИЯ
 # =============================================================================
 CHANNEL_URL = "https://t.me/s/sochiautoparts"
-PARSE_LIMIT = 1500
+PARSE_LIMIT = 3500
 CACHE_LIMIT = 3200
 CACHE_FILE = "data/cached_posts.json"
 MEDIA_MAP_FILE = "data/media_map.json"  # Новый файл с картой медиа
