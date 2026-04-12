@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🤖 SochiAutoParts Telegram Parser v2.1
-Исправлены: logging.handlers, Pydantic ConfigDict, совместимость с V2.
+🤖 SochiAutoParts Telegram Parser v2.2
+Исправления: надёжное извлечение ID, режим --force, улучшенное логирование.
 """
 
 import json
@@ -12,25 +12,25 @@ import sys
 import time
 import random
 import logging
-import logging.handlers  # 🔧 Явный импорт handlers
+import logging.handlers
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, Dict, Tuple
+from typing import List, Optional, Dict
 from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict  # 🔧 SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 # =============================================================================
-# 📋 КОНФИГУРАЦИЯ (Pydantic V2 Compatible)
+# 📋 КОНФИГУРАЦИЯ
 # =============================================================================
 
 class Settings(BaseSettings):
     channel_url: str = "https://t.me/s/sochiautoparts"
-    parse_limit: int = 3000
+    parse_limit: int = 2000
     cache_limit: int = 3000
     request_timeout: int = 30
     request_delay_min: float = 0.8
@@ -38,7 +38,6 @@ class Settings(BaseSettings):
     max_retries: int = 5
     data_dir: Path = Path("data")
     
-    # ✅ Pydantic V2: используем model_config вместо class Config
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -47,7 +46,6 @@ class Settings(BaseSettings):
 
 config = Settings()
 
-# Пути к файлам
 CACHE_FILE = config.data_dir / "cached_posts.json"
 MEDIA_MAP_FILE = config.data_dir / "media_map.json"
 LATEST_FILE = config.data_dir / "latest_posts.json"
@@ -68,7 +66,6 @@ def setup_logger() -> logging.Logger:
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     
-    # ✅ Теперь logging.handlers доступен
     file_handler = logging.handlers.RotatingFileHandler(
         LOG_FILE, maxBytes=10*1024*1024, backupCount=5, encoding='utf-8'
     )
@@ -85,7 +82,7 @@ def setup_logger() -> logging.Logger:
 logger = setup_logger()
 
 # =============================================================================
-# 📦 МОДЕЛИ ДАННЫХ
+# 📦 МОДЕЛИ
 # =============================================================================
 
 class Post(BaseModel):
@@ -112,7 +109,7 @@ class Post(BaseModel):
         return self.model_dump()
 
 # =============================================================================
-# 🔧 ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+# 🔧 УТИЛИТЫ
 # =============================================================================
 
 def get_user_agent() -> str:
@@ -125,16 +122,13 @@ def get_user_agent() -> str:
 
 def jitter_delay():
     delay = random.uniform(config.request_delay_min, config.request_delay_max)
-    logger.debug(f"⏳ Задержка: {delay:.2f}s")
     time.sleep(delay)
 
 def extract_bg_image(style: str) -> Optional[str]:
     if not style:
         return None
     match = re.search(r'background-image:\s*url\(["\']?(.*?)["\']?\)', style, re.IGNORECASE)
-    if match:
-        return match.group(1).strip()
-    return None
+    return match.group(1).strip() if match else None
 
 def is_valid_url(url: str) -> bool:
     try:
@@ -143,23 +137,24 @@ def is_valid_url(url: str) -> bool:
     except:
         return False
 
-def generate_media_hash(url: str) -> str:
-    if not url:
-        return '0'
-    hash_val = 2166136261
-    for char in url:
-        hash_val ^= ord(char)
-        hash_val = (hash_val * 16777619) & 0xFFFFFFFF
-    if hash_val == 0:
-        return '0'
-    digits = []
-    while hash_val:
-        hash_val, r = divmod(hash_val, 36)
-        digits.append('0123456789abcdefghijklmnopqrstuvwxyz'[r])
-    return ''.join(reversed(digits))
+def extract_post_id(wrap) -> Optional[str]:
+    """Надёжное извлечение ID поста."""
+    # Основной способ: data-post в div.tgme_widget_message
+    msg_div = wrap.find('div', class_='tgme_widget_message')
+    if msg_div:
+        post_id = msg_div.get('data-post')
+        if post_id:
+            return post_id.strip()
+    
+    # Резервный способ: поиск в любом элементе с data-post
+    elem_with_id = wrap.find(attrs={'data-post': True})
+    if elem_with_id:
+        return elem_with_id['data-post'].strip()
+    
+    return None
 
 # =============================================================================
-# 🌐 СЕТЕВОЙ СЛОЙ
+# 🌐 СЕТЬ
 # =============================================================================
 
 @retry(
@@ -171,11 +166,10 @@ def generate_media_hash(url: str) -> str:
 def fetch_page(session: requests.Session, url: str) -> str:
     headers = {
         'User-Agent': get_user_agent(),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
         'Accept-Encoding': 'gzip, deflate',
         'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
     }
     response = session.get(url, headers=headers, timeout=config.request_timeout)
     response.raise_for_status()
@@ -187,34 +181,28 @@ def fetch_page(session: requests.Session, url: str) -> str:
 
 def parse_post(wrap) -> Optional[Post]:
     try:
-        message_div = wrap.find('div', class_='tgme_widget_message')
-        if not message_div:
-            return None
-        
-        post_id = message_div.get('data-post')
+        post_id = extract_post_id(wrap)
         if not post_id:
+            logger.debug("⚠️ Пост без ID, пропускаем")
             return None
         
         post = Post(id=post_id)
         
-        # 📅 Дата
+        # Дата
         date_elem = wrap.find('time', class_='datetime')
         if date_elem and date_elem.get('datetime'):
             post.date = date_elem['datetime']
         
-        # 👁️ Просмотры
+        # Просмотры
         views_elem = wrap.find('span', class_='tgme_widget_message_views')
         if views_elem:
             views_text = views_elem.get_text(strip=True)
             try:
-                if 'K' in views_text:
-                    post.views = int(float(views_text.replace('K', '')) * 1000)
-                else:
-                    post.views = int(views_text)
+                post.views = int(float(views_text.replace('K', '')) * 1000) if 'K' in views_text else int(views_text)
             except:
                 pass
         
-        # 📝 Текст и ссылки
+        # Текст и ссылки
         text_elem = wrap.find('div', class_='tgme_widget_message_text')
         if text_elem:
             for br in text_elem.find_all('br'):
@@ -227,40 +215,29 @@ def parse_post(wrap) -> Optional[Post]:
                     if href not in post.links:
                         post.links.append(href)
         
-        # 📷 Фото
-        photo_wraps = wrap.find_all('a', class_='tgme_widget_message_photo_wrap')
-        for pw in photo_wraps:
-            style = pw.get('style', '')
-            photo_url = extract_bg_image(style)
+        # Фото
+        for pw in wrap.find_all('a', class_='tgme_widget_message_photo_wrap'):
+            photo_url = extract_bg_image(pw.get('style', ''))
             if photo_url and is_valid_url(photo_url) and photo_url not in post.photo_urls:
                 post.photo_urls.append(photo_url)
         
-        # 🎥 Видео
-        video_wraps = wrap.find_all('div', class_='tgme_widget_message_video_wrap')
-        for vw in video_wraps:
+        # Видео
+        for vw in wrap.find_all('div', class_='tgme_widget_message_video_wrap'):
             video_tag = vw.find('video')
             if video_tag:
-                if video_tag.get('src'):
-                    src = video_tag['src']
-                    if is_valid_url(src) and src not in post.video_urls:
-                        post.video_urls.append(src)
-                source_tag = video_tag.find('source')
-                if source_tag and source_tag.get('src'):
-                    src = source_tag['src']
-                    if is_valid_url(src) and src not in post.video_urls:
+                for src in [video_tag.get('src'), video_tag.find('source').get('src') if video_tag.find('source') else None]:
+                    if src and is_valid_url(src) and src not in post.video_urls:
                         post.video_urls.append(src)
         
-        # 🎬 Round video
-        round_videos = wrap.find_all('video', class_='tgme_widget_message_roundvideo')
-        for rv in round_videos:
+        # Round video
+        for rv in wrap.find_all('video', class_='tgme_widget_message_roundvideo'):
             if rv.get('src'):
                 src = rv['src']
                 if is_valid_url(src) and src not in post.video_urls:
                     post.video_urls.append(src)
         
-        # 🔗 Preview links
-        link_previews = wrap.find_all('a', class_='tgme_widget_message_link_preview')
-        for lp in link_previews:
+        # Preview links
+        for lp in wrap.find_all('a', class_='tgme_widget_message_link_preview'):
             href = lp.get('href', '')
             if href and not href.startswith('https://t.me/') and is_valid_url(href):
                 if href not in post.links:
@@ -305,7 +282,7 @@ def save_media_map(posts: List[Post]):
     media_map = {}
     for post in posts:
         for url in post.photo_urls + post.video_urls:
-            h = generate_media_hash(url)
+            h = hex(hash(url) & 0xFFFFFFFF)[2:]
             media_map[h] = url
     
     try:
@@ -324,12 +301,23 @@ def save_latest(posts: List[Post], count: int = 10):
     except Exception as e:
         logger.error(f"❌ Ошибка сохранения latest: {e}")
 
-def parse_channel(incremental: bool = True) -> List[Post]:
-    logger.info(f"🚀 Начинаем парсинг: {config.channel_url}")
-    logger.info(f"📊 Лимит: {config.parse_limit}, Режим: {'инкрементальный' if incremental else 'полный'}")
+def parse_channel(incremental: bool = True, force: bool = False) -> List[Post]:
+    """
+    Парсинг канала.
     
-    cache = load_cache() if incremental else {}
+    Args:
+        incremental: Если True, останавливается на первом известном посте.
+        force: Если True, игнорирует кеш и парсит всё заново.
+    """
+    logger.info(f"🚀 Парсинг: {config.channel_url}")
+    logger.info(f"📊 Режим: incremental={incremental}, force={force}")
+    
+    cache = {} if force else load_cache()
     known_ids = set(cache.keys())
+    
+    if known_ids:
+        max_known = max(known_ids)
+        logger.info(f"📌 Последний известный пост: {max_known}")
     
     all_posts: List[Post] = []
     new_posts: List[Post] = []
@@ -347,31 +335,33 @@ def parse_channel(incremental: bool = True) -> List[Post]:
             pages_loaded += 1
             
             wraps = soup.find_all('div', class_='tgme_widget_message_wrap')
-            logger.info(f"🔍 Найдено элементов: {len(wraps)}")
             
             if not wraps:
-                logger.warning("⚠️ Посты не найдены на странице")
+                logger.warning("⚠️ Посты не найдены")
                 break
             
+            logger.info(f"🔍 Найдено элементов: {len(wraps)}")
+            
             page_new = 0
-            for wrap in wraps:
+            for idx, wrap in enumerate(wraps):
                 post = parse_post(wrap)
                 if not post:
                     continue
                 
                 all_posts.append(post)
+                logger.debug(f"📝 Пост #{idx}: ID={post.id}, Date={post.date}")
                 
                 if post.id not in known_ids:
                     new_posts.append(post)
                     cache[post.id] = post
                     page_new += 1
-                    logger.debug(f"✓ Новый пост: {post.id}")
-                elif incremental:
-                    logger.info(f"🛑 Достигнут известный пост {post.id}, останавливаемся")
+                    logger.info(f"✓ Новый пост: {post.id}")
+                elif incremental and not force:
+                    logger.info(f"🛑 Известный пост {post.id}, останавливаемся")
                     next_url = None
                     break
             
-            logger.info(f"📈 Страница {pages_loaded}: новых постов {page_new}")
+            logger.info(f"📈 Страница {pages_loaded}: новых={page_new}, всего={len(all_posts)}")
             
             if next_url:
                 load_more = soup.find('a', class_='tme_messages_more')
@@ -397,23 +387,23 @@ def parse_channel(incremental: bool = True) -> List[Post]:
 
 def print_statistics(posts: List[Post]):
     if not posts:
+        print("\n📊 Нет новых постов")
         return
     
     with_photos = sum(1 for p in posts if p.photo_urls)
     with_videos = sum(1 for p in posts if p.video_urls)
-    with_links = sum(1 for p in posts if p.links)
-    
-    total_photos = sum(len(p.photo_urls) for p in posts)
-    total_videos = sum(len(p.video_urls) for p in posts)
     
     print("\n" + "=" * 60)
-    print("📊 СТАТИСТИКА ПАРСИНГА")
+    print("📊 СТАТИСТИКА")
     print("=" * 60)
-    print(f"📝 Постов обработано: {len(posts)}")
-    print(f"📷 С фото: {with_photos} (всего {total_photos})")
-    print(f"🎥 С видео: {with_videos} (всего {total_videos})")
-    print(f"🔗 Со ссылками: {with_links}")
+    print(f"📝 Новых постов: {len(posts)}")
+    print(f"📷 С фото: {with_photos}")
+    print(f"🎥 С видео: {with_videos}")
     print("=" * 60)
+    
+    print("\n🆕 Последние посты:")
+    for post in sorted(posts, key=lambda p: p.id, reverse=True)[:5]:
+        print(f"  • {post.id} | {post.date} | {post.text[:60]}...")
 
 # =============================================================================
 # 🎯 MAIN
@@ -421,30 +411,25 @@ def print_statistics(posts: List[Post]):
 
 def main():
     print("\n" + "=" * 60)
-    print("🤖 SOCHIAUTOPARTS Telegram Parser v2.1")
+    print("🤖 SOCHIAUTOPARTS Telegram Parser v2.2")
     print("=" * 60)
-    print(f"📅 Время: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"🔗 Канал: {config.channel_url}")
-    print(f"📁 Data dir: {config.data_dir}")
-    print("=" * 60 + "\n")
     
     incremental = '--full' not in sys.argv
+    force = '--force' in sys.argv
     
     try:
-        new_posts = parse_channel(incremental=incremental)
+        new_posts = parse_channel(incremental=incremental, force=force)
         print_statistics(new_posts)
         
-        print("\n✅ Успешно завершено!")
+        print("\n✅ Готово!")
         print(f"📄 Лог: {LOG_FILE}")
         print(f"💾 Кеш: {CACHE_FILE}")
-        print(f"🗺️ MediaMap: {MEDIA_MAP_FILE}")
-        print(f"📝 Latest: {LATEST_FILE}")
         
     except KeyboardInterrupt:
-        logger.warning("⚠️ Прервано пользователем")
+        logger.warning("⚠️ Прервано")
         sys.exit(1)
     except Exception as e:
-        logger.exception(f"❌ Фатальная ошибка: {e}")
+        logger.exception(f"❌ Ошибка: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
