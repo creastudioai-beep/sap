@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🤖 SochiAutoParts Telegram Parser v2.0
-Улучшенная версия с поддержкой инкрементального парсинга, 
-retry-логики, валидации данных и надёжного извлечения медиа.
+🤖 SochiAutoParts Telegram Parser v2.1
+Исправлены: logging.handlers, Pydantic ConfigDict, совместимость с V2.
 """
 
 import json
@@ -13,6 +12,7 @@ import sys
 import time
 import random
 import logging
+import logging.handlers  # 🔧 Явный импорт handlers
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Dict, Tuple
@@ -21,11 +21,11 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field, field_validator
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict  # 🔧 SettingsConfigDict
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 # =============================================================================
-# 📋 КОНФИГУРАЦИЯ
+# 📋 КОНФИГУРАЦИЯ (Pydantic V2 Compatible)
 # =============================================================================
 
 class Settings(BaseSettings):
@@ -38,9 +38,12 @@ class Settings(BaseSettings):
     max_retries: int = 5
     data_dir: Path = Path("data")
     
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    # ✅ Pydantic V2: используем model_config вместо class Config
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
 config = Settings()
 
@@ -65,13 +68,12 @@ def setup_logger() -> logging.Logger:
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     
-    # File handler с ротацией
+    # ✅ Теперь logging.handlers доступен
     file_handler = logging.handlers.RotatingFileHandler(
         LOG_FILE, maxBytes=10*1024*1024, backupCount=5, encoding='utf-8'
     )
     file_handler.setFormatter(formatter)
     
-    # Console handler
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
     
@@ -83,7 +85,7 @@ def setup_logger() -> logging.Logger:
 logger = setup_logger()
 
 # =============================================================================
-# 📦 МОДЕЛИ ДАННЫХ (Pydantic)
+# 📦 МОДЕЛИ ДАННЫХ
 # =============================================================================
 
 class Post(BaseModel):
@@ -114,7 +116,6 @@ class Post(BaseModel):
 # =============================================================================
 
 def get_user_agent() -> str:
-    """Ротация User-Agent для снижения риска блокировок."""
     agents = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/119.0.0.0 Safari/537.36",
@@ -123,23 +124,19 @@ def get_user_agent() -> str:
     return random.choice(agents)
 
 def jitter_delay():
-    """Задержка с джиттером для имитации человеческого поведения."""
     delay = random.uniform(config.request_delay_min, config.request_delay_max)
     logger.debug(f"⏳ Задержка: {delay:.2f}s")
     time.sleep(delay)
 
 def extract_bg_image(style: str) -> Optional[str]:
-    """Надёжное извлечение URL из background-image."""
     if not style:
         return None
-    # Улучшенная регулярка, обрабатывает кавычки и пробелы
     match = re.search(r'background-image:\s*url\(["\']?(.*?)["\']?\)', style, re.IGNORECASE)
     if match:
         return match.group(1).strip()
     return None
 
 def is_valid_url(url: str) -> bool:
-    """Проверка валидности URL."""
     try:
         parsed = urlparse(url)
         return parsed.scheme in ('http', 'https') and bool(parsed.netloc)
@@ -147,14 +144,12 @@ def is_valid_url(url: str) -> bool:
         return False
 
 def generate_media_hash(url: str) -> str:
-    """Генерация хеша для media_map (FNV-1a + base36)."""
     if not url:
         return '0'
     hash_val = 2166136261
     for char in url:
         hash_val ^= ord(char)
         hash_val = (hash_val * 16777619) & 0xFFFFFFFF
-    # Base36
     if hash_val == 0:
         return '0'
     digits = []
@@ -164,7 +159,7 @@ def generate_media_hash(url: str) -> str:
     return ''.join(reversed(digits))
 
 # =============================================================================
-# 🌐 СЕТЕВОЙ СЛОЙ С RETRY
+# 🌐 СЕТЕВОЙ СЛОЙ
 # =============================================================================
 
 @retry(
@@ -174,7 +169,6 @@ def generate_media_hash(url: str) -> str:
     reraise=True
 )
 def fetch_page(session: requests.Session, url: str) -> str:
-    """Загрузка страницы с retry логикой."""
     headers = {
         'User-Agent': get_user_agent(),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -192,7 +186,6 @@ def fetch_page(session: requests.Session, url: str) -> str:
 # =============================================================================
 
 def parse_post(wrap) -> Optional[Post]:
-    """Парсинг одного поста из HTML элемента."""
     try:
         message_div = wrap.find('div', class_='tgme_widget_message')
         if not message_div:
@@ -280,7 +273,6 @@ def parse_post(wrap) -> Optional[Post]:
         return None
 
 def load_cache() -> Dict[str, Post]:
-    """Загрузка кеша постов."""
     cache = {}
     if CACHE_FILE.exists():
         try:
@@ -298,11 +290,8 @@ def load_cache() -> Dict[str, Post]:
     return cache
 
 def save_cache(posts: List[Post]):
-    """Сохранение кеша."""
     try:
-        # Сортировка по ID (свежие в начале)
         sorted_posts = sorted(posts, key=lambda p: p.id, reverse=True)
-        # Ограничение размера
         final_posts = sorted_posts[:config.cache_limit]
         
         with open(CACHE_FILE, 'w', encoding='utf-8') as f:
@@ -313,7 +302,6 @@ def save_cache(posts: List[Post]):
         logger.error(f"❌ Ошибка сохранения кеша: {e}")
 
 def save_media_map(posts: List[Post]):
-    """Генерация media_map."""
     media_map = {}
     for post in posts:
         for url in post.photo_urls + post.video_urls:
@@ -328,7 +316,6 @@ def save_media_map(posts: List[Post]):
         logger.error(f"❌ Ошибка сохранения media_map: {e}")
 
 def save_latest(posts: List[Post], count: int = 10):
-    """Сохранение последних N постов."""
     try:
         latest = sorted(posts, key=lambda p: p.id, reverse=True)[:count]
         with open(LATEST_FILE, 'w', encoding='utf-8') as f:
@@ -338,12 +325,6 @@ def save_latest(posts: List[Post], count: int = 10):
         logger.error(f"❌ Ошибка сохранения latest: {e}")
 
 def parse_channel(incremental: bool = True) -> List[Post]:
-    """
-    Основной метод парсинга.
-    
-    Args:
-        incremental: Если True, парсит только новые посты до первого известного.
-    """
     logger.info(f"🚀 Начинаем парсинг: {config.channel_url}")
     logger.info(f"📊 Лимит: {config.parse_limit}, Режим: {'инкрементальный' if incremental else 'полный'}")
     
@@ -386,7 +367,6 @@ def parse_channel(incremental: bool = True) -> List[Post]:
                     page_new += 1
                     logger.debug(f"✓ Новый пост: {post.id}")
                 elif incremental:
-                    # 🛑 Останавливаемся на первом известном посте
                     logger.info(f"🛑 Достигнут известный пост {post.id}, останавливаемся")
                     next_url = None
                     break
@@ -404,7 +384,6 @@ def parse_channel(incremental: bool = True) -> List[Post]:
         
         logger.info(f"✅ Парсинг завершён. Всего: {len(all_posts)}, Новых: {len(new_posts)}")
         
-        # Сохраняем результаты
         final_posts = list(cache.values())
         save_cache(final_posts)
         save_media_map(final_posts)
@@ -417,7 +396,6 @@ def parse_channel(incremental: bool = True) -> List[Post]:
         raise
 
 def print_statistics(posts: List[Post]):
-    """Вывод статистики."""
     if not posts:
         return
     
@@ -443,14 +421,13 @@ def print_statistics(posts: List[Post]):
 
 def main():
     print("\n" + "=" * 60)
-    print("🤖 SOCHIAUTOPARTS Telegram Parser v2.0")
+    print("🤖 SOCHIAUTOPARTS Telegram Parser v2.1")
     print("=" * 60)
     print(f"📅 Время: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"🔗 Канал: {config.channel_url}")
     print(f"📁 Data dir: {config.data_dir}")
     print("=" * 60 + "\n")
     
-    # Аргумент: --full для полного парсинга
     incremental = '--full' not in sys.argv
     
     try:
