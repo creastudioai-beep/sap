@@ -30,7 +30,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 
 class Settings(BaseSettings):
     channel_url: str = "https://t.me/s/sochiautoparts"
-    parse_limit: int = 2000
+    parse_limit: int = 3000
     cache_limit: int = 3000
     request_timeout: int = 30
     request_delay_min: float = 0.8
