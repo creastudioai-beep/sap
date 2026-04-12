@@ -39,7 +39,7 @@ CONFIG = {
     'MEDIA_MAP_FILE': 'media_map.json',
     'MAX_PAGES': 10,
     'POSTS_PER_PAGE': 20,
-    'MAX_POSTS': 2000,
+    'MAX_POSTS': 3000,
     'REQUEST_DELAY': (0.5, 1.5),
     'MAX_RETRIES': 3,
     'RETRY_BACKOFF': 0.3,
