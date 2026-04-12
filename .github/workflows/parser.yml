@@ -2,10 +2,9 @@ name: Telegram Parser
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Запуск каждый час
+    - cron: '0 * * * *'  # Каждый час
   workflow_dispatch:     # Ручной запуск
 
-# ✅ Добавляем права на запись
 permissions:
   contents: write
 
@@ -15,24 +14,40 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5  # Node.js 24
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Set up Python
-        uses: actions/setup-python@v6  # Node.js 24
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Create data directory
+        run: mkdir -p data
 
       - name: Run parser
         run: python telegram_parser.py
+        env:
+          PARSE_LIMIT: 2000
+          CACHE_LIMIT: 5000
 
-      - name: Commit and push if changed
+      - name: Commit and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add data/
-          git diff --staged --quiet || git commit -m "Update posts data [skip ci]"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Update posts data [skip ci]"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
