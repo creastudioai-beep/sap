@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🤖 SochiAutoParts Telegram Parser v4.2
-Исправлено: извлечение даты публикации из <time datetime="...">
+🤖 SochiAutoParts Telegram Parser v4.3
+Изменено: полная перезапись JSON при каждом запуске (старые данные не смешиваются)
 Production-ready: retry-логика, атомарная запись, media_map, гарантированный сбор N постов.
 """
 
@@ -208,19 +208,16 @@ def parse_post(wrap) -> Optional[Dict]:
             'views': None,
         }
         
-        # ---------- ДАТА ПУБЛИКАЦИИ (ИСПРАВЛЕНО) ----------
-        # Ищем любой тег <time> с атрибутом datetime
+        # ---------- ДАТА ПУБЛИКАЦИИ ----------
         time_tag = wrap.find('time', attrs={'datetime': True})
         if time_tag:
             post['date'] = time_tag['datetime']
         else:
-            # fallback: ищем ссылку с классом tgme_widget_message_date и внутри time
             date_link = wrap.find('a', class_='tgme_widget_message_date')
             if date_link:
                 inner_time = date_link.find('time')
                 if inner_time and inner_time.get('datetime'):
                     post['date'] = inner_time['datetime']
-            # если всё равно нет — остаётся пустая строка
         
         # ---------- ПРОСМОТРЫ ----------
         views_elem = wrap.find('span', class_='tgme_widget_message_views')
@@ -243,7 +240,6 @@ def parse_post(wrap) -> Optional[Dict]:
             
             for link in text_elem.find_all('a', href=True):
                 href = link['href']
-                # Исключаем внутренние ссылки Telegram
                 if href and not href.startswith('https://t.me/') and is_valid_url(href):
                     if href not in post['links']:
                         post['links'].append(href)
@@ -263,7 +259,6 @@ def parse_post(wrap) -> Optional[Dict]:
                     if src and is_valid_url(src) and src not in post['video_urls']:
                         post['video_urls'].append(src)
         
-        # Round video
         for rv in wrap.find_all('video', class_='tgme_widget_message_roundvideo'):
             if rv.get('src'):
                 src = rv['src']
@@ -284,23 +279,8 @@ def parse_post(wrap) -> Optional[Dict]:
         logger.warning(f"⚠️ Ошибка парсинга поста: {e}")
         return None
 
-def load_cache() -> Dict[str, Dict]:
-    """Загрузка кеша."""
-    cache = {}
-    if CACHE_FILE.exists():
-        try:
-            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                for item in data:
-                    if isinstance(item, dict) and item.get('id'):
-                        cache[item['id']] = item
-            logger.info(f"📦 Загружен кеш: {len(cache)} постов")
-        except Exception as e:
-            logger.error(f"❌ Ошибка загрузки кеша: {e}")
-    return cache
-
 def generate_media_map(posts: List[Dict]) -> Dict[str, str]:
-    """Генерация media_map."""
+    """Генерация media_map из списка постов."""
     media_map = {}
     for post in posts:
         for url in post.get('photo_urls', []) + post.get('video_urls', []):
@@ -310,13 +290,13 @@ def generate_media_map(posts: List[Dict]) -> Dict[str, str]:
     return media_map
 
 def save_results(cache: Dict[str, Dict]) -> bool:
-    """Сохранение всех результатов."""
+    """Сохранение всех результатов (перезапись)."""
     posts = list(cache.values())
+    # Сортировка по id (дате) и ограничение по CACHE_LIMIT
     sorted_posts = sorted(posts, key=lambda p: p.get('id', ''), reverse=True)
     final_posts = sorted_posts[:CACHE_LIMIT]
     
     success = True
-    
     if not atomic_write(CACHE_FILE, final_posts):
         success = False
     
@@ -324,24 +304,24 @@ def save_results(cache: Dict[str, Dict]) -> bool:
     if not atomic_write(MEDIA_MAP_FILE, media_map):
         success = False
     
-    latest = sorted_posts[:10]
+    latest = final_posts[:10]  # последние 10 постов
     if not atomic_write(LATEST_FILE, latest):
         success = False
     
     if success:
         logger.info(f"✅ Результаты сохранены: {len(final_posts)} постов, {len(media_map)} медиа")
-    
     return success
 
 def parse_channel() -> List[Dict]:
     """
     Парсинг канала с гарантированным получением PARSE_LIMIT постов.
-    Всегда парсит с начала и собирает указанное количество.
+    Старые данные не загружаются — каждый запуск создаёт свежий кеш.
     """
     logger.info(f"🚀 Парсинг: {CHANNEL_URL}")
     logger.info(f"📊 Лимит: {PARSE_LIMIT} постов")
     
-    cache = load_cache()
+    # НЕ загружаем предыдущий кеш — начинаем с чистого словаря
+    cache: Dict[str, Dict] = {}
     all_posts: List[Dict] = []
     collected_ids: Set[str] = set()
     next_url = CHANNEL_URL
@@ -366,7 +346,6 @@ def parse_channel() -> List[Dict]:
             pages_loaded += 1
             
             wraps = soup.find_all('div', class_='tgme_widget_message_wrap')
-            
             if not wraps:
                 logger.warning("⚠️ Посты не найдены на странице")
                 break
@@ -374,7 +353,7 @@ def parse_channel() -> List[Dict]:
             logger.info(f"🔍 Найдено элементов: {len(wraps)}")
             
             page_new = 0
-            for idx, wrap in enumerate(wraps):
+            for wrap in wraps:
                 if len(all_posts) >= PARSE_LIMIT:
                     logger.info(f"⏹ Достигнут лимит: {PARSE_LIMIT} постов")
                     next_url = None
@@ -385,13 +364,11 @@ def parse_channel() -> List[Dict]:
                     continue
                 
                 post_id = post['id']
-                
                 if post_id not in collected_ids:
                     all_posts.append(post)
                     collected_ids.add(post_id)
                     cache[post_id] = post
                     page_new += 1
-                    # Отображаем дату в логе, если она есть
                     date_info = post.get('date', 'без даты')
                     logger.info(f"✓ Пост {post_id} | {date_info}")
                 else:
@@ -409,13 +386,12 @@ def parse_channel() -> List[Dict]:
                     logger.info("ℹ️ Кнопка 'Load more' не найдена")
         
         logger.info(f"✅ Парсинг завершён. Собрано: {len(all_posts)} постов")
-        
         save_results(cache)
-        
         return all_posts
         
     except Exception as e:
         logger.exception(f"❌ Критическая ошибка: {e}")
+        # Сохраняем то, что успели собрать (всё равно перезапись)
         save_results(cache)
         raise
 
@@ -432,7 +408,6 @@ def print_statistics(posts: List[Dict]):
     total_photos = sum(len(p.get('photo_urls', [])) for p in posts)
     total_videos = sum(len(p.get('video_urls', [])) for p in posts)
     
-    # Количество постов с датой
     with_date = sum(1 for p in posts if p.get('date'))
     
     print("\n" + "=" * 60)
@@ -456,7 +431,7 @@ def print_statistics(posts: List[Dict]):
 
 def main():
     print("\n" + "=" * 60)
-    print("🤖 SOCHIAUTOPARTS Telegram Parser v4.2")
+    print("🤖 SOCHIAUTOPARTS Telegram Parser v4.3 (полная перезапись JSON)")
     print("=" * 60)
     print(f"🔗 Канал: {CHANNEL_URL}")
     print(f"📊 Лимит: {PARSE_LIMIT}")
