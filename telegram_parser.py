@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 🤖 SochiAutoParts Telegram Parser v4.1
-FIXED: Строгая валидация даты. Посты без даты не сохраняются, чтобы избежать дублей в RSS.
 Production-ready: гарантированное получение N постов, retry-логика, атомарная запись, media_map.
+Исправлено: в JSON сохраняется дата публикации (date), а не дата парсинга.
 """
 
 import json
@@ -137,7 +137,7 @@ def extract_post_id(wrap) -> Optional[str]:
     return None
 
 def fnv1a_hash_32(s: str) -> int:
-    """FNV-1a 32-bit hash (совместимо с Worker)."""
+    """FNV-1a 32-bit hash."""
     hash_val = 2166136261
     for char in s:
         hash_val ^= ord(char)
@@ -160,18 +160,6 @@ def generate_media_hash(url: str) -> str:
         return '0'
     h = fnv1a_hash_32(url)
     return to_base36(h)
-
-def validate_date(date_str: str) -> bool:
-    """Проверка, что строка даты валидна и парсится в ISO формате."""
-    if not date_str:
-        return False
-    try:
-        # Поддержка формата с Z и смещением
-        date_str = date_str.replace('Z', '+00:00')
-        datetime.fromisoformat(date_str)
-        return True
-    except ValueError:
-        return False
 
 # =============================================================================
 # 🌐 СЕТЬ С RETRY
@@ -204,7 +192,7 @@ def fetch_page(session: requests.Session, url: str) -> str:
 # =============================================================================
 
 def parse_post(wrap) -> Optional[Dict]:
-    """Парсинг одного поста с обязательной проверкой даты."""
+    """Парсинг одного поста. В JSON сохраняется дата публикации (date)."""
     try:
         post_id = extract_post_id(wrap)
         if not post_id:
@@ -212,24 +200,19 @@ def parse_post(wrap) -> Optional[Dict]:
         
         post = {
             'id': post_id,
-            'date': '',
+            'date': '',           # сюда пойдёт дата публикации
             'text': '',
             'photo_urls': [],
             'video_urls': [],
             'links': [],
             'views': None,
-            'parsed_at': datetime.now().isoformat()
+            # поле parsed_at УДАЛЕНО — теперь сохраняется только дата публикации
         }
         
-        # ✅ КРИТИЧНО: Извлечение и валидация даты
+        # Дата публикации
         date_elem = wrap.find('time', class_='datetime')
         if date_elem and date_elem.get('datetime'):
-            post['date'] = date_elem['datetime'].strip()
-        
-        # Если дата отсутствует или невалидна — пропускаем пост
-        if not validate_date(post['date']):
-            logger.warning(f"⚠️ Пост {post_id} пропущен: отсутствует или невалидная дата")
-            return None
+            post['date'] = date_elem['datetime']
         
         # Просмотры
         views_elem = wrap.find('span', class_='tgme_widget_message_views')
@@ -317,7 +300,6 @@ def generate_media_map(posts: List[Dict]) -> Dict[str, str]:
 def save_results(cache: Dict[str, Dict]) -> bool:
     """Сохранение всех результатов."""
     posts = list(cache.values())
-    # Сортировка по ID (строковая сортировка работает корректно для Telegram ID)
     sorted_posts = sorted(posts, key=lambda p: p.get('id', ''), reverse=True)
     final_posts = sorted_posts[:CACHE_LIMIT]
     
