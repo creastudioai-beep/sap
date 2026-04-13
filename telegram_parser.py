@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-🤖 SochiAutoParts Telegram Parser v4.1
-Production-ready: гарантированное получение N постов, retry-логика, атомарная запись, media_map.
-Исправлено: в JSON сохраняется дата публикации (date), а не дата парсинга.
+🤖 SochiAutoParts Telegram Parser v4.2
+Исправлено: извлечение даты публикации из <time datetime="...">
+Production-ready: retry-логика, атомарная запись, media_map, гарантированный сбор N постов.
 """
 
 import json
@@ -192,7 +192,7 @@ def fetch_page(session: requests.Session, url: str) -> str:
 # =============================================================================
 
 def parse_post(wrap) -> Optional[Dict]:
-    """Парсинг одного поста. В JSON сохраняется дата публикации (date)."""
+    """Парсинг одного поста. Корректно извлекает дату публикации."""
     try:
         post_id = extract_post_id(wrap)
         if not post_id:
@@ -200,30 +200,41 @@ def parse_post(wrap) -> Optional[Dict]:
         
         post = {
             'id': post_id,
-            'date': '',           # сюда пойдёт дата публикации
+            'date': '',           # ISO дата публикации
             'text': '',
             'photo_urls': [],
             'video_urls': [],
             'links': [],
             'views': None,
-            # поле parsed_at УДАЛЕНО — теперь сохраняется только дата публикации
         }
         
-        # Дата публикации
-        date_elem = wrap.find('time', class_='datetime')
-        if date_elem and date_elem.get('datetime'):
-            post['date'] = date_elem['datetime']
+        # ---------- ДАТА ПУБЛИКАЦИИ (ИСПРАВЛЕНО) ----------
+        # Ищем любой тег <time> с атрибутом datetime
+        time_tag = wrap.find('time', attrs={'datetime': True})
+        if time_tag:
+            post['date'] = time_tag['datetime']
+        else:
+            # fallback: ищем ссылку с классом tgme_widget_message_date и внутри time
+            date_link = wrap.find('a', class_='tgme_widget_message_date')
+            if date_link:
+                inner_time = date_link.find('time')
+                if inner_time and inner_time.get('datetime'):
+                    post['date'] = inner_time['datetime']
+            # если всё равно нет — остаётся пустая строка
         
-        # Просмотры
+        # ---------- ПРОСМОТРЫ ----------
         views_elem = wrap.find('span', class_='tgme_widget_message_views')
         if views_elem:
             views_text = views_elem.get_text(strip=True)
             try:
-                post['views'] = int(float(views_text.replace('K', '')) * 1000) if 'K' in views_text else int(views_text)
+                if 'K' in views_text:
+                    post['views'] = int(float(views_text.replace('K', '')) * 1000)
+                else:
+                    post['views'] = int(views_text)
             except:
                 pass
         
-        # Текст и ссылки
+        # ---------- ТЕКСТ И ССЫЛКИ ----------
         text_elem = wrap.find('div', class_='tgme_widget_message_text')
         if text_elem:
             for br in text_elem.find_all('br'):
@@ -232,17 +243,18 @@ def parse_post(wrap) -> Optional[Dict]:
             
             for link in text_elem.find_all('a', href=True):
                 href = link['href']
+                # Исключаем внутренние ссылки Telegram
                 if href and not href.startswith('https://t.me/') and is_valid_url(href):
                     if href not in post['links']:
                         post['links'].append(href)
         
-        # Фото
+        # ---------- ФОТО ----------
         for pw in wrap.find_all('a', class_='tgme_widget_message_photo_wrap'):
             photo_url = extract_bg_image(pw.get('style', ''))
             if photo_url and is_valid_url(photo_url) and photo_url not in post['photo_urls']:
                 post['photo_urls'].append(photo_url)
         
-        # Видео
+        # ---------- ВИДЕО ----------
         for vw in wrap.find_all('div', class_='tgme_widget_message_video_wrap'):
             video_tag = vw.find('video')
             if video_tag:
@@ -258,7 +270,7 @@ def parse_post(wrap) -> Optional[Dict]:
                 if is_valid_url(src) and src not in post['video_urls']:
                     post['video_urls'].append(src)
         
-        # Preview links
+        # ---------- ПРЕВЬЮ ССЫЛОК ----------
         for lp in wrap.find_all('a', class_='tgme_widget_message_link_preview'):
             href = lp.get('href', '')
             if href and not href.startswith('https://t.me/') and is_valid_url(href):
@@ -379,7 +391,9 @@ def parse_channel() -> List[Dict]:
                     collected_ids.add(post_id)
                     cache[post_id] = post
                     page_new += 1
-                    logger.info(f"✓ Пост {post_id} | {post['date']}")
+                    # Отображаем дату в логе, если она есть
+                    date_info = post.get('date', 'без даты')
+                    logger.info(f"✓ Пост {post_id} | {date_info}")
                 else:
                     logger.debug(f"⊘ Дубликат: {post_id}")
             
@@ -418,10 +432,14 @@ def print_statistics(posts: List[Dict]):
     total_photos = sum(len(p.get('photo_urls', [])) for p in posts)
     total_videos = sum(len(p.get('video_urls', [])) for p in posts)
     
+    # Количество постов с датой
+    with_date = sum(1 for p in posts if p.get('date'))
+    
     print("\n" + "=" * 60)
     print("📊 СТАТИСТИКА")
     print("=" * 60)
     print(f"📝 Постов: {len(posts)}")
+    print(f"📅 С датой: {with_date}")
     print(f"📷 С фото: {with_photos} (всего {total_photos})")
     print(f"🎥 С видео: {with_videos} (всего {total_videos})")
     print(f"🔗 Со ссылками: {with_links}")
@@ -430,7 +448,7 @@ def print_statistics(posts: List[Dict]):
     print("\n🆕 Последние посты:")
     for post in sorted(posts, key=lambda p: p.get('id', ''), reverse=True)[:5]:
         text_preview = post.get('text', '')[:60].replace('\n', ' ')
-        print(f"  • {post['id']} | {post.get('date', '')} | {text_preview}...")
+        print(f"  • {post['id']} | {post.get('date', 'без даты')} | {text_preview}...")
 
 # =============================================================================
 # 🎯 MAIN
@@ -438,7 +456,7 @@ def print_statistics(posts: List[Dict]):
 
 def main():
     print("\n" + "=" * 60)
-    print("🤖 SOCHIAUTOPARTS Telegram Parser v4.1")
+    print("🤖 SOCHIAUTOPARTS Telegram Parser v4.2")
     print("=" * 60)
     print(f"🔗 Канал: {CHANNEL_URL}")
     print(f"📊 Лимит: {PARSE_LIMIT}")
