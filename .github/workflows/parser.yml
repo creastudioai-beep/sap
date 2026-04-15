@@ -35,8 +35,8 @@ jobs:
       - name: Run parser
         run: python telegram_parser.py
         env:
-          PARSE_LIMIT: 2000
-          CACHE_LIMIT: 5000
+          PARSE_LIMIT: 3500
+          CACHE_LIMIT: 3500
 
       - name: Commit and push changes
         run: |
