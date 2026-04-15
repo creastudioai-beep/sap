@@ -30,8 +30,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 # =============================================================================
 
 CHANNEL_URL = os.getenv("CHANNEL_URL", "https://t.me/s/sochiautoparts")
-PARSE_LIMIT = int(os.getenv("PARSE_LIMIT", "3000"))
-CACHE_LIMIT = int(os.getenv("CACHE_LIMIT", "3000"))
+PARSE_LIMIT = int(os.getenv("PARSE_LIMIT", "3500"))
+CACHE_LIMIT = int(os.getenv("CACHE_LIMIT", "3500"))
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "30"))
 REQUEST_DELAY_MIN = float(os.getenv("REQUEST_DELAY_MIN", "0.8"))
 REQUEST_DELAY_MAX = float(os.getenv("REQUEST_DELAY_MAX", "1.5"))
